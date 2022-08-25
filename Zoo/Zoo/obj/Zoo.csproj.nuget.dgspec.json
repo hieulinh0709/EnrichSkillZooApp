@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\Zoo\\Zoo\\Zoo.csproj": {}
+    "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\Zoo\\Zoo\\Zoo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\Zoo\\Zoo\\Zoo.csproj": {
+    "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\Zoo\\Zoo\\Zoo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\Zoo\\Zoo\\Zoo.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\Zoo\\Zoo\\Zoo.csproj",
         "projectName": "Zoo",
-        "projectPath": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\Zoo\\Zoo\\Zoo.csproj",
+        "projectPath": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\Zoo\\Zoo\\Zoo.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\Zoo\\Zoo\\obj\\",
+        "outputPath": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\Zoo\\Zoo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",

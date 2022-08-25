@@ -5,7 +5,7 @@ using Zoo.ZooManagement;
 
 namespace Zoo
 {
-    public class BaseAnimal : IAnimal
+    public abstract class BaseAnimal : IAnimal
     {
         #region properties
         public event EventHandler<DetectSoundEvent> DetectSoundEvent;
