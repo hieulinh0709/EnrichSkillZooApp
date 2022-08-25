@@ -7,10 +7,6 @@ namespace Zoo
 {
     public class Pig : Carnivore, IGluttony
     {
-        public override Guid Code { get => base.Code; set => base.Code = value; }
-        public override string Name { get => base.Name; set => base.Name = value; }
-        public override bool Scary { get => base.Scary; set => base.Scary = value; }
-        public override Food Food { get => base.Food; set => base.Food = value; }
         public override string Sound { get; set; } = "Éc";
 
         public Pig() {}

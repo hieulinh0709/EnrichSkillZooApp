@@ -15,7 +15,7 @@ namespace Zoo
 
         public virtual bool Scary { get; set; }
         public virtual string Sound { get; set; }
-        public virtual bool Sounding { get; set; }
+        public bool Sounding { get; set; }
         public virtual Food Food { get; set; }
         protected Cage _cage;
         #endregion properties

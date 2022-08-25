@@ -7,9 +7,6 @@ namespace Zoo
 {
     public class Monkey : Omnivore, IIntelligent
     {
-        public override Guid Code { get => base.Code; set => base.Code = value; }
-        public override string Name { get => base.Name; set => base.Name = value; }
-        public override bool Scary { get => base.Scary; set => base.Scary = value; }
         public override string Sound { get; set; } = "khỉ khỉ";
         public Monkey() {}
         public Monkey(Cage cage)
