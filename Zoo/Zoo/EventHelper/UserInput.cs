@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Zoo.EventHandler;
+using Zoo.ZooManagement;
 
 namespace Zoo.EventHelper
 {
@@ -13,14 +14,17 @@ namespace Zoo.EventHelper
 
         public void Input()
         {
+            int i = 999;
             do
             {
+                MenuManager menuManager = new MenuManager();
+                menuManager.MenuCage();
                 string input = Console.ReadLine();
-                int i = Int32.Parse(input);
+                bool isOK = Int32.TryParse(input, out i);
                 inputEvent?.Invoke(this, new InputData(i));
 
             }
-            while (false);
+            while (i != 4);
         }
     }
 }

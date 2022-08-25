@@ -10,6 +10,8 @@ namespace Zoo.Interface
     {
         void Eat();
         void Sleep();
-        void Bite();
+        void Bite(BaseAnimal animal);
+        void Speak(string sound);
+        void Create();
     }
 }

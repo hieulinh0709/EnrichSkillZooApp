@@ -1,50 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Zoo.ZooManagement
 {
+    public enum Food
+    {
+        Seed = 1,
+        Meat = 2
+    }
     public class MenuManager
     {
-        private readonly CageHandler _cageHandler;
-        private readonly AnimalHandler _animalHandler;
-        public MenuManager(CageHandler cageHandler, AnimalHandler animalHandler)
+        private readonly ZooManager _zooManager;
+        public MenuManager() { }
+        public MenuManager(ZooManager zooManager)
         {
-            _cageHandler = cageHandler;
-            _animalHandler = animalHandler;
+            _zooManager = zooManager;
         }
-        public Cage HandleCreateCage()
-        {
-            Console.WriteLine("Nhập thông tin để tạo Lồng");
 
-            Console.WriteLine("Code: ");
-            string code = Console.ReadLine();
-
-            Console.WriteLine("Name: ");
-            string name = Console.ReadLine();
-
-            Cage cage = new Cage(code, name);
-
-            return cage;
-        }
+        /// <summary>
+        /// My comment
+        /// </summary>
+        /// <param name="cages"></param>
         public void HandleSelectCage(List<Cage> cages)
         {
             string cageCode = InputCageCode();
+            Cage cage = _zooManager.FindCage(cages, Guid.Parse(cageCode));
 
-            Cage cage = _cageHandler.FindCage(cages, cageCode);
-
+            if (cage == null)
+                throw new ArgumentNullException($"Không tìm thấy Lồng với Mã: {cageCode}");
 
             Console.WriteLine("\nThông tin Lồng:");
             cage.ShowInfo();
-
-            //_animalHandler.ShowInfoAnimals(cage.animals);
-            Console.WriteLine("\n=========DANH SÁCH ĐỘNG VẬT==========");
-            foreach (var animal in cage.animals)
-            {
-                animal.ShowInFo();
-            }
+            cage.ShowInfoAnimals(cage.animals);
 
             int chose = 999;
             do
@@ -59,21 +46,20 @@ namespace Zoo.ZooManagement
                         int animalChose = 999;
                         do
                         {
-
                             ListDefaultAnimal();
                             animalChose = valueChoseInMenu();
-                            _cageHandler.AddAnimalToCage(cage, animalChose);
-                            _animalHandler.ShowInfoAnimals(cage.animals);
+                            _zooManager.AddAnimalToCage(cage, animalChose);
+                            cage.ShowInfoAnimals(cage.animals);
                         } while (animalChose != 0);
                         break;
                     case 2:
-                        ///
+                        string animalCode = InputAnimalCode();
+                        
+                        _zooManager.RemoveAnimalFromCage(cage, Guid.Parse(animalCode));
+                        cage.ShowInfoAnimals(cage.animals);
                         break;
                     case 3:
                         TimeForEat(cage);
-                        break;
-                    case 4:
-                        //
                         break;
                     default:
                         return;
@@ -81,10 +67,38 @@ namespace Zoo.ZooManagement
             } while (chose != 0);
         }
 
+        public void HandleRemoveCage(List<Cage> cages)
+        {
+            string cageCode = InputCageCode();
+            _zooManager.RemoveCage(cages, Guid.Parse(cageCode));
+        }
+        private string InputAnimalCode()
+        {
+            Console.WriteLine($"Nhập mã động: ");
+            bool isValid = true;
+            string input = string.Empty;
+            do
+            {
+                input = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(input))
+                    isValid = false;
+            } while (!isValid);
+
+            return input;
+        }
         private string InputCageCode()
         {
             Console.WriteLine($"Nhập mã Lồng: ");
-            string input = Console.ReadLine();
+            bool isValid = true;
+            string input = string.Empty;
+            do
+            {
+                input = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(input))
+                    isValid = false;
+            } while (!isValid);
 
             return input;
         }
@@ -110,6 +124,9 @@ namespace Zoo.ZooManagement
 
         }
 
+        /// <summary>
+        /// Here we can loop in the list of the animal to show
+        /// </summary>
         public void ListDefaultAnimal()
         {
             Console.WriteLine("\n=====================================");
@@ -124,13 +141,28 @@ namespace Zoo.ZooManagement
 
         private void TimeForEat(Cage cage)
         {
-            cage.TimeForEat(1);
+            Console.WriteLine("\nChọn loại thức ăn");
+            Console.WriteLine("1. Seed");
+            Console.WriteLine("2. Meat");
+            int chose = valueChoseInMenu();
+
+            foreach (var animal in cage.animals)
+            {
+                animal.Sounding = false;
+            }
+            cage.TimeForEat((Food)chose);
         }
 
         private int valueChoseInMenu()
         {
-            string input = Console.ReadLine();
-            int value = Int32.Parse(input);
+            bool isValid = true;
+            int value;
+
+            do
+            {
+                string input = Console.ReadLine();
+                bool isOK = Int32.TryParse(input, out value);
+            } while (!isValid);
 
             return value;
         }

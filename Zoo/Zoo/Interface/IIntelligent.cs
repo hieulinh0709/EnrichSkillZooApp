@@ -8,6 +8,6 @@ namespace Zoo.Interface
 {
     public interface IIntelligent : IAnimal
     {
-        void Copy();
+        void Copy(string skill);
     }
 }
