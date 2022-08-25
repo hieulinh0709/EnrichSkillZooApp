@@ -12,11 +12,10 @@ namespace Zoo
         public event EventHandler<MakeSoundEvent> MakeSoundEvent;
         public virtual Guid Code { get; set; }
         public virtual string Name { get; set; }
-
         public virtual bool Scary { get; set; }
         public virtual string Sound { get; set; }
         public bool Sounding { get; set; }
-        public virtual Food Food { get; set; }
+        public Food Food { get; set; }
         protected Cage _cage;
         #endregion properties
 
