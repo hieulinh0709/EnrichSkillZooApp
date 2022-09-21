@@ -108,7 +108,7 @@ namespace Zoo
             Parrot parrot = new Parrot(cage);
             parrot.Code = Guid.NewGuid();
             parrot.Name = "Dona";
-            animals.AddRange(new List<BaseAnimal> { wolf, pig, monkey, parrot});
+            animals.AddRange(new List<BaseAnimal> { monkey, parrot, wolf, pig, });
 
             return animals;
         }
