@@ -67,6 +67,38 @@ namespace BookStoreManagement.DataAccess.DbInitializer
 
                 _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
 
+                _userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = "lamhieulinh797@gmail.com",
+                    Email = "lamhieulinh797@gmail.com",
+                    Name = "Linh Lam Hieu",
+                    PhoneNumber = "123456789",
+                    StreetAddress = "123 streets abc dictrict",
+                    State = "IL",
+                    PostalCode = "99999",
+                    City = "CanTho"
+                }, "Admin@123").GetAwaiter().GetResult();
+
+                ApplicationUser use2r = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "lamhieulinh797@gmail.com");
+
+                _userManager.AddToRoleAsync(use2r, SD.Role_Admin).GetAwaiter().GetResult();
+
+                _userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = "khoinv11@fsoft.com.vn",
+                    Email = "khoinv11@fsoft.com.vn",
+                    Name = "KhoiNV",
+                    PhoneNumber = "123456789",
+                    StreetAddress = "123 streets abc dictrict",
+                    State = "IL",
+                    PostalCode = "99999",
+                    City = "CanTho"
+                }, "Admin@123").GetAwaiter().GetResult();
+
+                ApplicationUser user3 = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "khoinv11@fsoft.com.vn");
+
+                _userManager.AddToRoleAsync(user3, SD.Role_Admin).GetAwaiter().GetResult();
+
             }
             return;
         }
