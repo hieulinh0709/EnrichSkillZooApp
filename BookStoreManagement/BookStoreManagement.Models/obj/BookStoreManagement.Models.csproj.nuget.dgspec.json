@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\BookStoreManagement\\BookStoreManagement.Models\\BookStoreManagement.Models.csproj": {}
+    "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.Models\\BookStoreManagement.Models.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\BookStoreManagement\\BookStoreManagement.Models\\BookStoreManagement.Models.csproj": {
+    "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.Models\\BookStoreManagement.Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\BookStoreManagement\\BookStoreManagement.Models\\BookStoreManagement.Models.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.Models\\BookStoreManagement.Models.csproj",
         "projectName": "BookStoreManagement.Models",
-        "projectPath": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\BookStoreManagement\\BookStoreManagement.Models\\BookStoreManagement.Models.csproj",
+        "projectPath": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.Models\\BookStoreManagement.Models.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\BookStoreManagement\\BookStoreManagement.Models\\obj\\",
+        "outputPath": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.Models\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,6 +39,28 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.9, )"
+            },
+            "Microsoft.AspNetCore.Identity.UI": {
+              "target": "Package",
+              "version": "[6.0.9, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Core": {
+              "target": "Package",
+              "version": "[2.2.5, )"
+            },
+            "Microsoft.Extensions.Identity.Stores": {
+              "target": "Package",
+              "version": "[6.0.9, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

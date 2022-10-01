@@ -1,0 +1,12 @@
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Models\bin\Debug\net6.0\BookStoreManagement.Models.deps.json
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Models\bin\Debug\net6.0\BookStoreManagement.Models.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Models\bin\Debug\net6.0\BookStoreManagement.Models.pdb
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Models\obj\Debug\net6.0\BookStoreManagement.Models.csproj.AssemblyReference.cache
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Models\obj\Debug\net6.0\BookStoreManagement.Models.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Models\obj\Debug\net6.0\BookStoreManagement.Models.AssemblyInfoInputs.cache
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Models\obj\Debug\net6.0\BookStoreManagement.Models.AssemblyInfo.cs
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Models\obj\Debug\net6.0\BookStoreManagement.Models.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Models\obj\Debug\net6.0\BookStoreManagement.Models.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Models\obj\Debug\net6.0\refint\BookStoreManagement.Models.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Models\obj\Debug\net6.0\BookStoreManagement.Models.pdb
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Models\obj\Debug\net6.0\ref\BookStoreManagement.Models.dll

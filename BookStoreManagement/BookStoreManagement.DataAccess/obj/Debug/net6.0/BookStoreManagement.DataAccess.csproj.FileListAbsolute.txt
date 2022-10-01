@@ -1,0 +1,17 @@
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.DataAccess\bin\Debug\net6.0\BookStoreManagement.DataAccess.deps.json
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.DataAccess\bin\Debug\net6.0\BookStoreManagement.DataAccess.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.DataAccess\bin\Debug\net6.0\BookStoreManagement.DataAccess.pdb
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.DataAccess\bin\Debug\net6.0\BookStoreManagement.Models.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.DataAccess\bin\Debug\net6.0\BookStoreManagement.Utility.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.DataAccess\bin\Debug\net6.0\BookStoreManagement.Models.pdb
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.DataAccess\bin\Debug\net6.0\BookStoreManagement.Utility.pdb
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.DataAccess\obj\Debug\net6.0\BookStoreManagement.DataAccess.csproj.AssemblyReference.cache
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.DataAccess\obj\Debug\net6.0\BookStoreManagement.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.DataAccess\obj\Debug\net6.0\BookStoreManagement.DataAccess.AssemblyInfoInputs.cache
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.DataAccess\obj\Debug\net6.0\BookStoreManagement.DataAccess.AssemblyInfo.cs
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.DataAccess\obj\Debug\net6.0\BookStoreManagement.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.DataAccess\obj\Debug\net6.0\BookStoreManagement.DataAccess.csproj.CopyComplete
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.DataAccess\obj\Debug\net6.0\BookStoreManagement.DataAccess.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.DataAccess\obj\Debug\net6.0\refint\BookStoreManagement.DataAccess.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.DataAccess\obj\Debug\net6.0\BookStoreManagement.DataAccess.pdb
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.DataAccess\obj\Debug\net6.0\ref\BookStoreManagement.DataAccess.dll

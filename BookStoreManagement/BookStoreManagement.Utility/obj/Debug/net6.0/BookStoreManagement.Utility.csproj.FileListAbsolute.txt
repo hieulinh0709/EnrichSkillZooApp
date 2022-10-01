@@ -1,0 +1,12 @@
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Utility\bin\Debug\net6.0\BookStoreManagement.Utility.deps.json
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Utility\bin\Debug\net6.0\BookStoreManagement.Utility.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Utility\bin\Debug\net6.0\BookStoreManagement.Utility.pdb
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Utility\obj\Debug\net6.0\BookStoreManagement.Utility.csproj.AssemblyReference.cache
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Utility\obj\Debug\net6.0\BookStoreManagement.Utility.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Utility\obj\Debug\net6.0\BookStoreManagement.Utility.AssemblyInfoInputs.cache
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Utility\obj\Debug\net6.0\BookStoreManagement.Utility.AssemblyInfo.cs
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Utility\obj\Debug\net6.0\BookStoreManagement.Utility.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Utility\obj\Debug\net6.0\BookStoreManagement.Utility.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Utility\obj\Debug\net6.0\refint\BookStoreManagement.Utility.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Utility\obj\Debug\net6.0\BookStoreManagement.Utility.pdb
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Utility\obj\Debug\net6.0\ref\BookStoreManagement.Utility.dll

@@ -1,17 +1,97 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\BookStoreManagement\\BookStoreManagement.DataAccess\\BookStoreManagement.DataAccess.csproj": {}
+    "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.DataAccess\\BookStoreManagement.DataAccess.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\BookStoreManagement\\BookStoreManagement.DataAccess\\BookStoreManagement.DataAccess.csproj": {
+    "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.DataAccess\\BookStoreManagement.DataAccess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\BookStoreManagement\\BookStoreManagement.DataAccess\\BookStoreManagement.DataAccess.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.DataAccess\\BookStoreManagement.DataAccess.csproj",
         "projectName": "BookStoreManagement.DataAccess",
-        "projectPath": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\BookStoreManagement\\BookStoreManagement.DataAccess\\BookStoreManagement.DataAccess.csproj",
+        "projectPath": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.DataAccess\\BookStoreManagement.DataAccess.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\BookStoreManagement\\BookStoreManagement.DataAccess\\obj\\",
+        "outputPath": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.DataAccess\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.Models\\BookStoreManagement.Models.csproj": {
+                "projectPath": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.Models\\BookStoreManagement.Models.csproj"
+              },
+              "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.Utility\\BookStoreManagement.Utility.csproj": {
+                "projectPath": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.Utility\\BookStoreManagement.Utility.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.9, )"
+            },
+            "Microsoft.AspNetCore.Identity.UI": {
+              "target": "Package",
+              "version": "[6.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.9, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.Models\\BookStoreManagement.Models.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.Models\\BookStoreManagement.Models.csproj",
+        "projectName": "BookStoreManagement.Models",
+        "projectPath": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.Models\\BookStoreManagement.Models.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.Models\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,6 +119,105 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.9, )"
+            },
+            "Microsoft.AspNetCore.Identity.UI": {
+              "target": "Package",
+              "version": "[6.0.9, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Core": {
+              "target": "Package",
+              "version": "[2.2.5, )"
+            },
+            "Microsoft.Extensions.Identity.Stores": {
+              "target": "Package",
+              "version": "[6.0.9, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.Utility\\BookStoreManagement.Utility.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.Utility\\BookStoreManagement.Utility.csproj",
+        "projectName": "BookStoreManagement.Utility",
+        "projectPath": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.Utility\\BookStoreManagement.Utility.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.Utility\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.9, )"
+            },
+            "Microsoft.AspNetCore.Identity.UI": {
+              "target": "Package",
+              "version": "[6.0.9, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Core": {
+              "target": "Package",
+              "version": "[2.2.5, )"
+            },
+            "Microsoft.Extensions.Identity.Stores": {
+              "target": "Package",
+              "version": "[6.0.9, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
