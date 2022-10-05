@@ -568,3 +568,8 @@ C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\Book
 C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Web\obj\Debug\net6.0\BookStoreManagement.Web.pdb
 C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Web\obj\Debug\net6.0\BookStoreManagement.Web.genruntimeconfig.cache
 C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Web\obj\Debug\net6.0\ref\BookStoreManagement.Web.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Web\bin\Debug\net6.0\SendGrid.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Web\bin\Debug\net6.0\StarkbankEcdsa.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Web\bin\Debug\net6.0\MailKit.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Web\bin\Debug\net6.0\MimeKit.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Web\bin\Debug\net6.0\BouncyCastle.Crypto.dll

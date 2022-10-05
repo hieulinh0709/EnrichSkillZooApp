@@ -133,6 +133,7 @@ namespace BookStoreManagementWeb.Areas.Customer.Controllers
             {
                 //stripe settings 
                 var domain = "https://localhost:44300/";
+                var domain2 = "https://localhost:7193/";
                 var options = new SessionCreateOptions
                 {
                     PaymentMethodTypes = new List<string>
@@ -141,8 +142,8 @@ namespace BookStoreManagementWeb.Areas.Customer.Controllers
                 },
                     LineItems = new List<SessionLineItemOptions>(),
                     Mode = "payment",
-                    SuccessUrl = domain + $"customer/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
-                    CancelUrl = domain + $"customer/cart/index",
+                    SuccessUrl = domain2 + $"customer/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
+                    CancelUrl = domain2 + $"customer/cart/index",
                 };
 
                 foreach (var item in ShoppingCartVM.ListCart)
@@ -152,7 +153,7 @@ namespace BookStoreManagementWeb.Areas.Customer.Controllers
                     {
                         PriceData = new SessionLineItemPriceDataOptions
                         {
-                            UnitAmount = (long)(item.Price * 100),//20.00 -> 2000
+                            UnitAmount = (long)(item.Price * 100),
                             Currency = "usd",
                             ProductData = new SessionLineItemPriceDataProductDataOptions
                             {
@@ -244,17 +245,12 @@ namespace BookStoreManagementWeb.Areas.Customer.Controllers
         private double GetPriceBasedOnQuantity(double quantity, double price, double price50, double price100)
         {
             if (quantity <= 50)
-            {
                 return price;
-            }
-            else
-            {
-                if (quantity <= 100)
-                {
-                    return price50;
-                }
-                return price100;
-            }
+
+            if (quantity <= 100)
+                return price50;
+
+            return price100;
         }
     }
 }
