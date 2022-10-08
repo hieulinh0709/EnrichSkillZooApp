@@ -1,15 +1,12 @@
-﻿using BookStoreManagement.DataAccess;
-using BookStoreManagement.DataAccess.Repository.IRepository;
+﻿using BookStoreManagement.DataAccess.Repository.IRepository;
 using BookStoreManagement.Models;
 using BookStoreManagement.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace BookStoreManagementWeb.Controllers;
 [Area("Admin")]
-[Authorize(Roles = SD.Role_Admin)]
+[Authorize(Roles = StatusData.Role_Admin)]
 public class CoverTypeController : Controller
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -49,16 +46,10 @@ public class CoverTypeController : Controller
     //GET
     public IActionResult Edit(int? id)
     {
-        if(id==null || id == 0)
-        {
-            return NotFound();
-        }
+        if(id==null || id == 0) return NotFound();
         var CoverTypeFromDbFirst = _unitOfWork.CoverType.GetFirstOrDefault(u=>u.Id==id);
 
-        if (CoverTypeFromDbFirst == null)
-        {
-            return NotFound();
-        }
+        if (CoverTypeFromDbFirst == null) return NotFound();
 
         return View(CoverTypeFromDbFirst);
     }
@@ -81,16 +72,10 @@ public class CoverTypeController : Controller
 
     public IActionResult Delete(int? id)
     {
-        if (id == null || id == 0)
-        {
-            return NotFound();
-        }
+        if (id == null || id == 0) return NotFound();
         var CoverTypeFromDbFirst = _unitOfWork.CoverType.GetFirstOrDefault(u=>u.Id==id);
 
-        if (CoverTypeFromDbFirst == null)
-        {
-            return NotFound();
-        }
+        if (CoverTypeFromDbFirst == null) return NotFound();
 
         return View(CoverTypeFromDbFirst);
     }
@@ -101,10 +86,7 @@ public class CoverTypeController : Controller
     public IActionResult DeletePOST(int? id)
     {
         var obj = _unitOfWork.CoverType.GetFirstOrDefault(u => u.Id == id);
-        if (obj == null)
-        {
-            return NotFound();
-        }
+        if (obj == null) return NotFound();
 
         _unitOfWork.CoverType.Remove(obj);
             _unitOfWork.Save();

@@ -1,15 +1,12 @@
-﻿using BookStoreManagement.DataAccess;
-using BookStoreManagement.DataAccess.Repository.IRepository;
+﻿using BookStoreManagement.DataAccess.Repository.IRepository;
 using BookStoreManagement.Models;
 using BookStoreManagement.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace BookStoreManagementWeb.Controllers;
 [Area("Admin")]
-[Authorize(Roles = SD.Role_Admin)]
+[Authorize(Roles = StatusData.Role_Admin)] // Mọi action đều kiểm tra user đăng nhập là Admin mới thực hiện
 public class CategoryController : Controller
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -37,9 +34,8 @@ public class CategoryController : Controller
     public IActionResult Create(Category obj)
     {
         if (obj.Name == obj.DisplayOrder.ToString())
-        {
             ModelState.AddModelError("name", "The DisplayOrder cannot exactly match the Name.");
-        }
+
         if (ModelState.IsValid)
         {
             _unitOfWork.Category.Add(obj);
@@ -54,17 +50,12 @@ public class CategoryController : Controller
     public IActionResult Edit(int? id)
     {
         if(id==null || id == 0)
-        {
             return NotFound();
-        }
-        //var categoryFromDb = _db.Categories.Find(id);
+
         var categoryFromDbFirst = _unitOfWork.Category.GetFirstOrDefault(u=>u.Id==id);
-        //var categoryFromDbSingle = _db.Categories.SingleOrDefault(u => u.Id == id);
 
         if (categoryFromDbFirst == null)
-        {
             return NotFound();
-        }
 
         return View(categoryFromDbFirst);
     }
@@ -75,9 +66,8 @@ public class CategoryController : Controller
     public IActionResult Edit(Category obj)
     {
         if (obj.Name == obj.DisplayOrder.ToString())
-        {
             ModelState.AddModelError("name", "The DisplayOrder cannot exactly match the Name.");
-        }
+
         if (ModelState.IsValid)
         {
             _unitOfWork.Category.Update(obj);
@@ -91,17 +81,12 @@ public class CategoryController : Controller
     public IActionResult Delete(int? id)
     {
         if (id == null || id == 0)
-        {
             return NotFound();
-        }
-        //var categoryFromDb = _db.Categories.Find(id);
+
         var categoryFromDbFirst = _unitOfWork.Category.GetFirstOrDefault(u=>u.Id==id);
-        //var categoryFromDbSingle = _db.Categories.SingleOrDefault(u => u.Id == id);
 
         if (categoryFromDbFirst == null)
-        {
             return NotFound();
-        }
 
         return View(categoryFromDbFirst);
     }
@@ -113,9 +98,7 @@ public class CategoryController : Controller
     {
         var obj = _unitOfWork.Category.GetFirstOrDefault(u => u.Id == id);
         if (obj == null)
-        {
             return NotFound();
-        }
 
         _unitOfWork.Category.Remove(obj);
             _unitOfWork.Save();

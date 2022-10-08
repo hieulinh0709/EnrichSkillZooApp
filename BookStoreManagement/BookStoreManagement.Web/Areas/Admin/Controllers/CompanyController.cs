@@ -1,21 +1,12 @@
-﻿using BookStoreManagement.DataAccess;
-using BookStoreManagement.DataAccess.Repository.IRepository;
+﻿using BookStoreManagement.DataAccess.Repository.IRepository;
 using BookStoreManagement.Models;
-using BookStoreManagement.Models.ViewModels;
 using BookStoreManagement.Utility;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace BookStoreManagementWeb.Controllers;
 [Area("Admin")]
-[Authorize(Roles = SD.Role_Admin)]
+[Authorize(Roles = StatusData.Role_Admin)] // Mọi action đều kiểm tra user đăng nhập là Admin mới thực hiện
 public class CompanyController : Controller
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -35,10 +26,7 @@ public class CompanyController : Controller
     {
         Company company = new();
 
-        if (id == null || id == 0)
-        {
-            return View(company);
-        }
+        if (id == null || id == 0) return View(company);
         else
         {
             company = _unitOfWork.Company.GetFirstOrDefault(u => u.Id == id);
@@ -88,9 +76,7 @@ public class CompanyController : Controller
     {
         var obj = _unitOfWork.Company.GetFirstOrDefault(u => u.Id == id);
         if (obj == null)
-        {
             return Json(new { success = false, message = "Error while deleting" });
-        }
 
         _unitOfWork.Company.Remove(obj);
         _unitOfWork.Save();

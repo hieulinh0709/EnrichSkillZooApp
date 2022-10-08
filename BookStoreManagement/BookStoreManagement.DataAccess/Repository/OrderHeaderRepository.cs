@@ -1,11 +1,6 @@
 ﻿using BookStoreManagement.DataAccess.Data;
 using BookStoreManagement.DataAccess.Repository.IRepository;
 using BookStoreManagement.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookStoreManagement.DataAccess.Repository
 {
@@ -17,8 +12,6 @@ namespace BookStoreManagement.DataAccess.Repository
         {
             _db = db;
         }
-
-
         public void Update(OrderHeader obj)
         {
             _db.OrderHeaders.Update(obj);

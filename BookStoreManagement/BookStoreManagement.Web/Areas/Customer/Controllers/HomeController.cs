@@ -1,18 +1,14 @@
 ﻿using BookStoreManagement.DataAccess.Repository.IRepository;
 using BookStoreManagement.Models;
-using BookStoreManagement.Models.ViewModels;
 using BookStoreManagement.Utility;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Security.Claims;
 
 namespace BookStoreManagementWeb.Controllers;
 [Area("Customer")]
+[AllowAnonymous] // Cho phép User truy cập Action này mà không cần đăng nhập
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
@@ -54,13 +50,12 @@ public class HomeController : Controller
 
         ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.GetFirstOrDefault(
             u => u.ApplicationUserId == claim.Value && u.ProductId == shoppingCart.ProductId);
-            
 
         if (cartFromDb == null) {
 
             _unitOfWork.ShoppingCart.Add(shoppingCart);
             _unitOfWork.Save();
-            HttpContext.Session.SetInt32(SD.SessionCart,
+            HttpContext.Session.SetInt32(StatusData.SessionCart,
                 _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claim.Value).ToList().Count);
         }
         else
@@ -68,11 +63,9 @@ public class HomeController : Controller
             _unitOfWork.ShoppingCart.IncrementCount(cartFromDb, shoppingCart.Count);
             _unitOfWork.Save();
         }
-        
 
         return RedirectToAction(nameof(Index));
     }
-
 
     public IActionResult Privacy()
     {

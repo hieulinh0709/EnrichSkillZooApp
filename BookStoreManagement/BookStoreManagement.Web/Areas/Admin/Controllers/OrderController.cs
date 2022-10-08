@@ -6,9 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
 using Stripe.Checkout;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 
 namespace BookStoreManagementWeb.Areas.Admin.Controllers
@@ -37,6 +34,7 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
                 OrderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == orderId, includeProperties: "ApplicationUser"),
                 OrderDetail = _unitOfWork.OrderDetail.GetAll(u => u.OrderId == orderId, includeProperties: "Product"),
             };
+
             return View(OrderVM);
         }
 
@@ -64,7 +62,6 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
 
             foreach (var item in OrderVM.OrderDetail)
             {
-
                 var sessionLineItem = new SessionLineItemOptions
                 {
                     PriceData = new SessionLineItemPriceDataOptions
@@ -94,14 +91,14 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
         public IActionResult PaymentConfirmation(int orderHeaderid)
         {
             OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == orderHeaderid);
-            if (orderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment)
+            if (orderHeader.PaymentStatus == StatusData.PaymentStatusDelayedPayment)
             {
                 var service = new SessionService();
                 Session session = service.Get(orderHeader.SessionId);
                 //check the stripe status
                 if (session.PaymentStatus.ToLower() == "paid")
                 {
-                    _unitOfWork.OrderHeader.UpdateStatus(orderHeaderid, orderHeader.OrderStatus, SD.PaymentStatusApproved);
+                    _unitOfWork.OrderHeader.UpdateStatus(orderHeaderid, orderHeader.OrderStatus, StatusData.PaymentStatusApproved);
                     _unitOfWork.Save();
                 }
             }
@@ -109,7 +106,7 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+        [Authorize(Roles = StatusData.Role_Admin + "," + StatusData.Role_Employee)]
         [ValidateAntiForgeryToken]
         public IActionResult UpdateOrderDetail()
         {
@@ -121,13 +118,11 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
             orderHEaderFromDb.State = OrderVM.OrderHeader.State;
             orderHEaderFromDb.PostalCode = OrderVM.OrderHeader.PostalCode;
             if (OrderVM.OrderHeader.Carrier != null)
-            {
                 orderHEaderFromDb.Carrier = OrderVM.OrderHeader.Carrier;
-            }
+
             if (OrderVM.OrderHeader.TrackingNumber != null)
-            {
                 orderHEaderFromDb.TrackingNumber = OrderVM.OrderHeader.TrackingNumber;
-            }
+
             _unitOfWork.OrderHeader.Update(orderHEaderFromDb);
             _unitOfWork.Save();
             TempData["Success"] = "Order Details Updated Successfully.";
@@ -135,30 +130,30 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+        [Authorize(Roles = StatusData.Role_Admin + "," + StatusData.Role_Employee)]
         [ValidateAntiForgeryToken]
         public IActionResult StartProcessing()
         {
-            _unitOfWork.OrderHeader.UpdateStatus(OrderVM.OrderHeader.Id, SD.StatusInProcess);
+            _unitOfWork.OrderHeader.UpdateStatus(OrderVM.OrderHeader.Id, StatusData.StatusInProcess);
             _unitOfWork.Save();
             TempData["Success"] = "Order Status Updated Successfully.";
             return RedirectToAction("Details", "Order", new { orderId = OrderVM.OrderHeader.Id });
         }
 
         [HttpPost]
-        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+        [Authorize(Roles = StatusData.Role_Admin + "," + StatusData.Role_Employee)]
         [ValidateAntiForgeryToken]
         public IActionResult ShipOrder()
         {
             var orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id, tracked: false);
             orderHeader.TrackingNumber = OrderVM.OrderHeader.TrackingNumber;
             orderHeader.Carrier = OrderVM.OrderHeader.Carrier;
-            orderHeader.OrderStatus = SD.StatusShipped;
+            orderHeader.OrderStatus = StatusData.StatusShipped;
             orderHeader.ShippingDate = DateTime.Now;
-            if (orderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment)
-            {
+
+            if (orderHeader.PaymentStatus == StatusData.PaymentStatusDelayedPayment)
                 orderHeader.PaymentDueDate = DateTime.Now.AddDays(30);
-            }
+
             _unitOfWork.OrderHeader.Update(orderHeader);
              _unitOfWork.Save();
             TempData["Success"] = "Order Shipped Successfully.";
@@ -166,12 +161,12 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+        [Authorize(Roles = StatusData.Role_Admin + "," + StatusData.Role_Employee)]
         [ValidateAntiForgeryToken]
         public IActionResult CancelOrder()
         {
             var orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id, tracked: false);
-            if (orderHeader.PaymentStatus == SD.PaymentStatusApproved)
+            if (orderHeader.PaymentStatus == StatusData.PaymentStatusApproved)
             {
                 var options = new RefundCreateOptions
                 {
@@ -182,12 +177,11 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
                 var service = new RefundService();
                 Refund refund = service.Create(options);
 
-                _unitOfWork.OrderHeader.UpdateStatus(orderHeader.Id, SD.StatusCancelled, SD.StatusRefunded);
+                _unitOfWork.OrderHeader.UpdateStatus(orderHeader.Id, StatusData.StatusCancelled, StatusData.StatusRefunded);
             }
             else
-            {
-                _unitOfWork.OrderHeader.UpdateStatus(orderHeader.Id, SD.StatusCancelled, SD.StatusCancelled);
-            }
+                _unitOfWork.OrderHeader.UpdateStatus(orderHeader.Id, StatusData.StatusCancelled, StatusData.StatusCancelled);
+
             _unitOfWork.Save();
 
             TempData["Success"] = "Order Cancelled Successfully.";
@@ -200,9 +194,8 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
         {
             IEnumerable<OrderHeader> orderHeaders;
 
-            if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee)) { 
-            orderHeaders = _unitOfWork.OrderHeader.GetAll(includeProperties: "ApplicationUser");
-            }
+            if (User.IsInRole(StatusData.Role_Admin) || User.IsInRole(StatusData.Role_Employee))
+                orderHeaders = _unitOfWork.OrderHeader.GetAll(includeProperties: "ApplicationUser");
             else
             {
                 var claimsIdentity = (ClaimsIdentity)User.Identity;
@@ -213,16 +206,16 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
             switch (status)
             {
                 case "pending":
-                    orderHeaders = orderHeaders.Where(u => u.PaymentStatus == SD.PaymentStatusDelayedPayment);
+                    orderHeaders = orderHeaders.Where(u => u.PaymentStatus == StatusData.PaymentStatusDelayedPayment);
                     break;
                 case "inprocess":
-                    orderHeaders = orderHeaders.Where(u => u.OrderStatus == SD.StatusInProcess);
+                    orderHeaders = orderHeaders.Where(u => u.OrderStatus == StatusData.StatusInProcess);
                     break;
                 case "completed":
-                    orderHeaders = orderHeaders.Where(u => u.OrderStatus == SD.StatusShipped);
+                    orderHeaders = orderHeaders.Where(u => u.OrderStatus == StatusData.StatusShipped);
                     break;
                 case "approved":
-                    orderHeaders = orderHeaders.Where(u => u.OrderStatus == SD.StatusApproved);
+                    orderHeaders = orderHeaders.Where(u => u.OrderStatus == StatusData.StatusApproved);
                     break;
                 default:
                     break;

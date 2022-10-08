@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity.UI.Services;
+﻿using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
-using SendGrid;
-using SendGrid.Helpers.Mail;
-//using System.Net.Mail;
-using MailKit.Net.Smtp;
 
 namespace BookStoreManagement.Utility
 {

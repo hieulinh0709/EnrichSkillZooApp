@@ -1,21 +1,13 @@
-﻿using BookStoreManagement.DataAccess;
-using BookStoreManagement.DataAccess.Repository.IRepository;
-using BookStoreManagement.Models;
+﻿using BookStoreManagement.DataAccess.Repository.IRepository;
 using BookStoreManagement.Models.ViewModels;
 using BookStoreManagement.Utility;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace BookStoreManagementWeb.Controllers;
 [Area("Admin")]
-[Authorize(Roles = SD.Role_Admin)]
+[Authorize(Roles = StatusData.Role_Admin)]
 public class ProductController : Controller
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -131,15 +123,11 @@ public class ProductController : Controller
     {
         var obj = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == id);
         if (obj == null)
-        {
             return Json(new { success = false, message = "Error while deleting" });
-        }
 
         var oldImagePath = Path.Combine(_hostEnvironment.WebRootPath, obj.ImageUrl.TrimStart('\\'));
         if (System.IO.File.Exists(oldImagePath))
-        {
             System.IO.File.Delete(oldImagePath);
-        }
 
         _unitOfWork.Product.Remove(obj);
         _unitOfWork.Save();

@@ -3,12 +3,9 @@ using BookStoreManagement.Models;
 using BookStoreManagement.Models.ViewModels;
 using BookStoreManagement.Utility;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Stripe.Checkout;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 
 namespace BookStoreManagementWeb.Areas.Customer.Controllers
@@ -67,8 +64,6 @@ namespace BookStoreManagementWeb.Areas.Customer.Controllers
             ShoppingCartVM.OrderHeader.State = ShoppingCartVM.OrderHeader.ApplicationUser.State;
             ShoppingCartVM.OrderHeader.PostalCode = ShoppingCartVM.OrderHeader.ApplicationUser.PostalCode;
 
-
-
             foreach (var cart in ShoppingCartVM.ListCart)
             {
                 cart.Price = GetPriceBasedOnQuantity(cart.Count, cart.Product.Price,
@@ -104,13 +99,13 @@ namespace BookStoreManagementWeb.Areas.Customer.Controllers
 
             if (applicationUser.CompanyId.GetValueOrDefault() == 0)
             {
-                ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusPending;
-                ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusPending;
+                ShoppingCartVM.OrderHeader.PaymentStatus = StatusData.PaymentStatusPending;
+                ShoppingCartVM.OrderHeader.OrderStatus = StatusData.StatusPending;
             }
             else
             {
-                ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusDelayedPayment;
-                ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusApproved;
+                ShoppingCartVM.OrderHeader.PaymentStatus = StatusData.PaymentStatusDelayedPayment;
+                ShoppingCartVM.OrderHeader.OrderStatus = StatusData.StatusApproved;
             }
 
             _unitOfWork.OrderHeader.Add(ShoppingCartVM.OrderHeader);
@@ -148,7 +143,6 @@ namespace BookStoreManagementWeb.Areas.Customer.Controllers
 
                 foreach (var item in ShoppingCartVM.ListCart)
                 {
-
                     var sessionLineItem = new SessionLineItemOptions
                     {
                         PriceData = new SessionLineItemPriceDataOptions
@@ -184,14 +178,14 @@ namespace BookStoreManagementWeb.Areas.Customer.Controllers
         public IActionResult OrderConfirmation(int id)
         {
             OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == id,includeProperties:"ApplicationUser");
-            if (orderHeader.PaymentStatus != SD.PaymentStatusDelayedPayment)
+            if (orderHeader.PaymentStatus != StatusData.PaymentStatusDelayedPayment)
             {
                 var service = new SessionService();
                 Session session = service.Get(orderHeader.SessionId);
                 //check the stripe status
                 if (session.PaymentStatus.ToLower() == "paid")
                 {
-                    _unitOfWork.OrderHeader.UpdateStatus(id, SD.StatusApproved, SD.PaymentStatusApproved);
+                    _unitOfWork.OrderHeader.UpdateStatus(id, StatusData.StatusApproved, StatusData.PaymentStatusApproved);
                     _unitOfWork.Save();
                 }
             }
@@ -218,7 +212,7 @@ namespace BookStoreManagementWeb.Areas.Customer.Controllers
             {
                 _unitOfWork.ShoppingCart.Remove(cart);
                 var count = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == cart.ApplicationUserId).ToList().Count-1;
-                HttpContext.Session.SetInt32(SD.SessionCart, count);
+                HttpContext.Session.SetInt32(StatusData.SessionCart, count);
             }
             else
             {
@@ -234,13 +228,9 @@ namespace BookStoreManagementWeb.Areas.Customer.Controllers
             _unitOfWork.ShoppingCart.Remove(cart);
             _unitOfWork.Save();
             var count = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == cart.ApplicationUserId).ToList().Count;
-            HttpContext.Session.SetInt32(SD.SessionCart, count);
+            HttpContext.Session.SetInt32(StatusData.SessionCart, count);
             return RedirectToAction(nameof(Index));
         }
-
-
-
-
 
         private double GetPriceBasedOnQuantity(double quantity, double price, double price50, double price100)
         {
