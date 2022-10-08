@@ -15,7 +15,7 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
     public class OrderController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        [BindProperty]
+        [BindProperty] // Binding dữ liệu đầu vào cho thuộc tính
         public OrderVM OrderVM { get; set; }
         public OrderController(IUnitOfWork unitOfWork)
         {
@@ -38,6 +38,10 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
             return View(OrderVM);
         }
 
+        /// <summary>
+        /// Thực hiện thanh toán đơn hàng
+        /// </summary>
+        /// <returns></returns>
         [ActionName("Details")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -88,6 +92,11 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
             return new StatusCodeResult(303);
         }
 
+        /// <summary>
+        /// Xác nhận thanh toán đã thanh toán thì update trạng thái approved
+        /// </summary>
+        /// <param name="orderHeaderid"></param>
+        /// <returns></returns>
         public IActionResult PaymentConfirmation(int orderHeaderid)
         {
             OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == orderHeaderid);
@@ -105,6 +114,10 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
             return View(orderHeaderid);
         }
 
+        /// <summary>
+        /// Cập nhật thông tin chi tiết cho đơn hàng
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = StatusData.Role_Admin + "," + StatusData.Role_Employee)]
         [ValidateAntiForgeryToken]
@@ -129,6 +142,11 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
             return RedirectToAction("Details", "Order", new { orderId = orderHEaderFromDb.Id });
         }
 
+        /// <summary>
+        /// Đang xử lý, lấy hàng trong kho, gói hàng
+        /// </summary>
+        /// <returns></returns>
+
         [HttpPost]
         [Authorize(Roles = StatusData.Role_Admin + "," + StatusData.Role_Employee)]
         [ValidateAntiForgeryToken]
@@ -140,6 +158,10 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
             return RedirectToAction("Details", "Order", new { orderId = OrderVM.OrderHeader.Id });
         }
 
+        /// <summary>
+        /// Giao cho dịch vụ vận chuyển
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = StatusData.Role_Admin + "," + StatusData.Role_Employee)]
         [ValidateAntiForgeryToken]
@@ -160,12 +182,18 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
             return RedirectToAction("Details", "Order", new { orderId = OrderVM.OrderHeader.Id });
         }
 
+        /// <summary>
+        /// Hủy đơn hàng
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = StatusData.Role_Admin + "," + StatusData.Role_Employee)]
         [ValidateAntiForgeryToken]
         public IActionResult CancelOrder()
         {
             var orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id, tracked: false);
+
+            // nếu đã thanh toán thì tạo request hoàn tiền và update status thành cancel 
             if (orderHeader.PaymentStatus == StatusData.PaymentStatusApproved)
             {
                 var options = new RefundCreateOptions
@@ -184,16 +212,26 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
 
             _unitOfWork.Save();
 
+            /* 
+            * Tương tự ViewData và ViewBag, TempData cũng dùng để truyền dữ liệu ra view
+            * điểm khác là TempData có thể lưu lại và hiển thị ở một trang sau đó và nó chỉ biến mất khi người dùng đã "đọc" nó
+            */
             TempData["Success"] = "Order Cancelled Successfully.";
             return RedirectToAction("Details", "Order", new { orderId = OrderVM.OrderHeader.Id });
         }
 
+        /// <summary>
+        /// Get đơn hàng với điều kiện
+        /// </summary>
+        /// <param name="status"> trạng thái của đơn hàng</param>
+        /// <returns></returns>
         #region API CALLS
         [HttpGet]
         public IActionResult GetAll(string status)
         {
             IEnumerable<OrderHeader> orderHeaders;
 
+            // check role to get data
             if (User.IsInRole(StatusData.Role_Admin) || User.IsInRole(StatusData.Role_Employee))
                 orderHeaders = _unitOfWork.OrderHeader.GetAll(includeProperties: "ApplicationUser");
             else
@@ -203,6 +241,7 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
                 orderHeaders = _unitOfWork.OrderHeader.GetAll(u=>u.ApplicationUserId==claim.Value,includeProperties: "ApplicationUser");
             }
 
+            // filter data by status
             switch (status)
             {
                 case "pending":

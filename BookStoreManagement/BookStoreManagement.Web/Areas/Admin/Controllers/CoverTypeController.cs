@@ -46,12 +46,12 @@ public class CoverTypeController : Controller
     //GET
     public IActionResult Edit(int? id)
     {
-        if(id==null || id == 0) return NotFound();
-        var CoverTypeFromDbFirst = _unitOfWork.CoverType.GetFirstOrDefault(u=>u.Id==id);
+        if(id == null || id == 0) return NotFound();
+        var coverTypeFromDbFirst = _unitOfWork.CoverType.GetFirstOrDefault(u=>u.Id==id);
 
-        if (CoverTypeFromDbFirst == null) return NotFound();
+        if (coverTypeFromDbFirst == null) return NotFound();
 
-        return View(CoverTypeFromDbFirst);
+        return View(coverTypeFromDbFirst);
     }
 
     //POST
@@ -73,11 +73,11 @@ public class CoverTypeController : Controller
     public IActionResult Delete(int? id)
     {
         if (id == null || id == 0) return NotFound();
-        var CoverTypeFromDbFirst = _unitOfWork.CoverType.GetFirstOrDefault(u=>u.Id==id);
+        var coverTypeFromDbFirst = _unitOfWork.CoverType.GetFirstOrDefault(u=>u.Id==id);
 
-        if (CoverTypeFromDbFirst == null) return NotFound();
+        if (coverTypeFromDbFirst == null) return NotFound();
 
-        return View(CoverTypeFromDbFirst);
+        return View(coverTypeFromDbFirst);
     }
 
     //POST

@@ -15,6 +15,11 @@ namespace BookStoreManagement.DataAccess.Repository
             _db = db;
             this.dbSet = _db.Set<T>();
         }
+
+        /// <summary>
+        /// Add record to entity
+        /// </summary>
+        /// <param name="entity"></param>
         public void Add(T entity)
         {
             dbSet.Add(entity);

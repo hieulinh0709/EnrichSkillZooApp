@@ -30,7 +30,7 @@ public class CategoryController : Controller
 
     //POST
     [HttpPost]
-    [ValidateAntiForgeryToken]
+    [ValidateAntiForgeryToken] // chặn Cross-site Request Forgery (CSRF) attacks
     public IActionResult Create(Category obj)
     {
         if (obj.Name == obj.DisplayOrder.ToString())
