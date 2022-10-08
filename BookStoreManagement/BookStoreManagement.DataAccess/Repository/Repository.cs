@@ -41,6 +41,13 @@ namespace BookStoreManagement.DataAccess.Repository
             return query.ToList();
         }
 
+        /// <summary>
+        /// Lấy phần tử đầu tiên sau khi filter nếu không có trả về null
+        /// </summary>
+        /// <param name="filter">condition để lọc data</param>
+        /// <param name="includeProperties"></param>
+        /// <param name="tracked">flag to perform AsNoTracking</param>
+        /// <returns></returns>
         public T GetFirstOrDefault(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = true)
         {
             if (tracked)
