@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace BookStoreManagementWeb.Controllers;
+namespace BookStoreManagement.Web.Areas.Admin.Controllers;
 [Area("Admin")]
 [Authorize(Roles = StatusData.Role_Admin)]
 public class ProductController : Controller
@@ -31,12 +31,12 @@ public class ProductController : Controller
         ProductVM productVM = new()
         {
             Product = new(),
-            CategoryList = _unitOfWork.Category.GetAll().Select(i => new SelectListItem
+            CategoryList = _unitOfWork.CategoryRepo.GetAll().Select(i => new SelectListItem
             {
                 Text = i.Name,
                 Value = i.Id.ToString()
             }),
-            CoverTypeList = _unitOfWork.CoverType.GetAll().Select(i => new SelectListItem
+            CoverTypeList = _unitOfWork.CoverTypeRepo.GetAll().Select(i => new SelectListItem
             {
                 Text = i.Name,
                 Value = i.Id.ToString()
@@ -52,7 +52,7 @@ public class ProductController : Controller
         }
         else
         {
-            productVM.Product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == id);
+            productVM.Product = _unitOfWork.ProductRepo.GetFirstOrDefault(u => u.Id == id);
             return View(productVM);
 
             //update product
@@ -94,11 +94,11 @@ public class ProductController : Controller
             }
             if (obj.Product.Id == 0)
             {
-                _unitOfWork.Product.Add(obj.Product);
+                _unitOfWork.ProductRepo.Add(obj.Product);
             }
             else
             {
-                _unitOfWork.Product.Update(obj.Product);
+                _unitOfWork.ProductRepo.Update(obj.Product);
             }
             _unitOfWork.Save();
             TempData["success"] = "Product created successfully";
@@ -113,7 +113,7 @@ public class ProductController : Controller
     [HttpGet]
     public IActionResult GetAll()
     {
-        var productList = _unitOfWork.Product.GetAll(includeProperties: "Category,CoverType");
+        var productList = _unitOfWork.ProductRepo.GetAll(includeProperties: "Category,CoverType");
         return Json(new { data = productList });
     }
 
@@ -121,7 +121,7 @@ public class ProductController : Controller
     [HttpDelete]
     public IActionResult Delete(int? id)
     {
-        var obj = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == id);
+        var obj = _unitOfWork.ProductRepo.GetFirstOrDefault(u => u.Id == id);
         if (obj == null)
             return Json(new { success = false, message = "Error while deleting" });
 
@@ -129,7 +129,7 @@ public class ProductController : Controller
         if (System.IO.File.Exists(oldImagePath))
             System.IO.File.Delete(oldImagePath);
 
-        _unitOfWork.Product.Remove(obj);
+        _unitOfWork.ProductRepo.Remove(obj);
         _unitOfWork.Save();
         return Json(new { success = true, message = "Delete Successful" });
 

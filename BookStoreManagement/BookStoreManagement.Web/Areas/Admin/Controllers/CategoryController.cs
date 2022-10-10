@@ -4,7 +4,7 @@ using BookStoreManagement.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BookStoreManagementWeb.Controllers;
+namespace BookStoreManagement.Web.Areas.Admin.Controllers;
 [Area("Admin")]
 [Authorize(Roles = StatusData.Role_Admin)] // Mọi action đều kiểm tra user đăng nhập là Admin mới thực hiện
 public class CategoryController : Controller
@@ -13,12 +13,12 @@ public class CategoryController : Controller
 
     public CategoryController(IUnitOfWork unitOfWork)
     {
-        _unitOfWork= unitOfWork;
+        _unitOfWork = unitOfWork;
     }
 
     public IActionResult Index()
     {
-        IEnumerable<Category> objCategoryList = _unitOfWork.Category.GetAll();
+        IEnumerable<Category> objCategoryList = _unitOfWork.CategoryRepo.GetAll();
         return View(objCategoryList);
     }
 
@@ -38,22 +38,23 @@ public class CategoryController : Controller
 
         if (ModelState.IsValid)
         {
-            _unitOfWork.Category.Add(obj);
+            _unitOfWork.CategoryRepo.Add(obj);
             _unitOfWork.Save();
             TempData["success"] = "Category created successfully";
             return RedirectToAction("Index");
         }
-        return View(obj);   
+        return View(obj);
     }
 
     //GET
     public IActionResult Edit(int? id)
     {
-        if(id==null || id == 0)
+        if (id == null || id == 0)
             return NotFound();
 
-        var categoryFromDbFirst = _unitOfWork.Category.GetFirstOrDefault(u=>u.Id==id);
+        var categoryFromDbFirst = _unitOfWork.CategoryRepo.GetFirstOrDefault(u => u.Id == id);
 
+        var c = _unitOfWork.CategoryRepo.GetAll(null, null);
         if (categoryFromDbFirst == null)
             return NotFound();
 
@@ -70,7 +71,7 @@ public class CategoryController : Controller
 
         if (ModelState.IsValid)
         {
-            _unitOfWork.Category.Update(obj);
+            _unitOfWork.CategoryRepo.Update(obj);
             _unitOfWork.Save();
             TempData["success"] = "Category updated successfully";
             return RedirectToAction("Index");
@@ -83,7 +84,7 @@ public class CategoryController : Controller
         if (id == null || id == 0)
             return NotFound();
 
-        var categoryFromDbFirst = _unitOfWork.Category.GetFirstOrDefault(u=>u.Id==id);
+        var categoryFromDbFirst = _unitOfWork.CategoryRepo.GetFirstOrDefault(u => u.Id == id);
 
         if (categoryFromDbFirst == null)
             return NotFound();
@@ -92,18 +93,18 @@ public class CategoryController : Controller
     }
 
     //POST
-    [HttpPost,ActionName("Delete")]
+    [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public IActionResult DeletePOST(int? id)
     {
-        var obj = _unitOfWork.Category.GetFirstOrDefault(u => u.Id == id);
+        var obj = _unitOfWork.CategoryRepo.GetFirstOrDefault(u => u.Id == id);
         if (obj == null)
             return NotFound();
 
-        _unitOfWork.Category.Remove(obj);
-            _unitOfWork.Save();
+        _unitOfWork.CategoryRepo.Remove(obj);
+        _unitOfWork.Save();
         TempData["success"] = "Category deleted successfully";
         return RedirectToAction("Index");
-        
+
     }
 }

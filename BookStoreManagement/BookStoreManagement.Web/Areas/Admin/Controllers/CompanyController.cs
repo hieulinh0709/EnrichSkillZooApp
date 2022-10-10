@@ -4,7 +4,7 @@ using BookStoreManagement.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BookStoreManagementWeb.Controllers;
+namespace BookStoreManagement.Web.Areas.Admin.Controllers;
 [Area("Admin")]
 [Authorize(Roles = StatusData.Role_Admin)] // Mọi action đều kiểm tra user đăng nhập là Admin mới thực hiện
 public class CompanyController : Controller
@@ -29,7 +29,7 @@ public class CompanyController : Controller
         if (id == null || id == 0) return View(company);
         else
         {
-            company = _unitOfWork.Company.GetFirstOrDefault(u => u.Id == id);
+            company = _unitOfWork.CompanyRepo.GetFirstOrDefault(u => u.Id == id);
             return View(company);
         }
     }
@@ -42,19 +42,19 @@ public class CompanyController : Controller
 
         if (ModelState.IsValid)
         {
-            
+
             if (obj.Id == 0)
             {
-                _unitOfWork.Company.Add(obj);
+                _unitOfWork.CompanyRepo.Add(obj);
                 TempData["success"] = "Company created successfully";
             }
             else
             {
-                _unitOfWork.Company.Update(obj);
+                _unitOfWork.CompanyRepo.Update(obj);
                 TempData["success"] = "Company updated successfully";
             }
             _unitOfWork.Save();
-            
+
             return RedirectToAction("Index");
         }
         return View(obj);
@@ -66,7 +66,7 @@ public class CompanyController : Controller
     [HttpGet]
     public IActionResult GetAll()
     {
-        var companyList = _unitOfWork.Company.GetAll();
+        var companyList = _unitOfWork.CompanyRepo.GetAll();
         return Json(new { data = companyList });
     }
 
@@ -74,11 +74,11 @@ public class CompanyController : Controller
     [HttpDelete]
     public IActionResult Delete(int? id)
     {
-        var obj = _unitOfWork.Company.GetFirstOrDefault(u => u.Id == id);
+        var obj = _unitOfWork.CompanyRepo.GetFirstOrDefault(u => u.Id == id);
         if (obj == null)
             return Json(new { success = false, message = "Error while deleting" });
 
-        _unitOfWork.Company.Remove(obj);
+        _unitOfWork.CompanyRepo.Remove(obj);
         _unitOfWork.Save();
         return Json(new { success = true, message = "Delete Successful" });
 

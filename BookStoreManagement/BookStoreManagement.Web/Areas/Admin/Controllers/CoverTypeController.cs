@@ -4,7 +4,7 @@ using BookStoreManagement.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BookStoreManagementWeb.Controllers;
+namespace BookStoreManagement.Web.Areas.Admin.Controllers;
 [Area("Admin")]
 [Authorize(Roles = StatusData.Role_Admin)]
 public class CoverTypeController : Controller
@@ -13,12 +13,12 @@ public class CoverTypeController : Controller
 
     public CoverTypeController(IUnitOfWork unitOfWork)
     {
-        _unitOfWork= unitOfWork;
+        _unitOfWork = unitOfWork;
     }
 
     public IActionResult Index()
     {
-        IEnumerable<CoverType> objCoverTypeList = _unitOfWork.CoverType.GetAll();
+        IEnumerable<CoverType> objCoverTypeList = _unitOfWork.CoverTypeRepo.GetAll();
         return View(objCoverTypeList);
     }
 
@@ -35,19 +35,19 @@ public class CoverTypeController : Controller
     {
         if (ModelState.IsValid)
         {
-            _unitOfWork.CoverType.Add(obj);
+            _unitOfWork.CoverTypeRepo.Add(obj);
             _unitOfWork.Save();
             TempData["success"] = "CoverType created successfully";
             return RedirectToAction("Index");
         }
-        return View(obj);   
+        return View(obj);
     }
 
     //GET
     public IActionResult Edit(int? id)
     {
-        if(id == null || id == 0) return NotFound();
-        var coverTypeFromDbFirst = _unitOfWork.CoverType.GetFirstOrDefault(u=>u.Id==id);
+        if (id == null || id == 0) return NotFound();
+        var coverTypeFromDbFirst = _unitOfWork.CoverTypeRepo.GetFirstOrDefault(u => u.Id == id);
 
         if (coverTypeFromDbFirst == null) return NotFound();
 
@@ -59,10 +59,10 @@ public class CoverTypeController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult Edit(CoverType obj)
     {
-       
+
         if (ModelState.IsValid)
         {
-            _unitOfWork.CoverType.Update(obj);
+            _unitOfWork.CoverTypeRepo.Update(obj);
             _unitOfWork.Save();
             TempData["success"] = "CoverType updated successfully";
             return RedirectToAction("Index");
@@ -73,7 +73,7 @@ public class CoverTypeController : Controller
     public IActionResult Delete(int? id)
     {
         if (id == null || id == 0) return NotFound();
-        var coverTypeFromDbFirst = _unitOfWork.CoverType.GetFirstOrDefault(u=>u.Id==id);
+        var coverTypeFromDbFirst = _unitOfWork.CoverTypeRepo.GetFirstOrDefault(u => u.Id == id);
 
         if (coverTypeFromDbFirst == null) return NotFound();
 
@@ -81,17 +81,17 @@ public class CoverTypeController : Controller
     }
 
     //POST
-    [HttpPost,ActionName("Delete")]
+    [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public IActionResult DeletePOST(int? id)
     {
-        var obj = _unitOfWork.CoverType.GetFirstOrDefault(u => u.Id == id);
+        var obj = _unitOfWork.CoverTypeRepo.GetFirstOrDefault(u => u.Id == id);
         if (obj == null) return NotFound();
 
-        _unitOfWork.CoverType.Remove(obj);
-            _unitOfWork.Save();
+        _unitOfWork.CoverTypeRepo.Remove(obj);
+        _unitOfWork.Save();
         TempData["success"] = "CoverType deleted successfully";
         return RedirectToAction("Index");
-        
+
     }
 }

@@ -9,7 +9,7 @@ using Stripe.Checkout;
 using System.Reflection;
 using System.Security.Claims;
 
-namespace BookStoreManagementWeb.Areas.Admin.Controllers
+namespace BookStoreManagement.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize]
@@ -32,8 +32,8 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
         {
             OrderVM = new OrderVM()
             {
-                OrderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == orderId, includeProperties: "ApplicationUser"),
-                OrderDetail = _unitOfWork.OrderDetail.GetAll(u => u.OrderId == orderId, includeProperties: "Product"),
+                OrderHeader = _unitOfWork.OrderHeaderRepo.GetFirstOrDefault(u => u.Id == orderId, includeProperties: "ApplicationUser"),
+                OrderDetail = _unitOfWork.OrderDetailRepo.GetAll(u => u.OrderId == orderId, includeProperties: "Product"),
             };
 
             return View(OrderVM);
@@ -48,8 +48,8 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Details_PAY_NOW()
         {
-            OrderVM.OrderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id, includeProperties: typeof(ApplicationUser).GetTypeInfo().Name);
-            OrderVM.OrderDetail = _unitOfWork.OrderDetail.GetAll(u => u.OrderId == OrderVM.OrderHeader.Id, includeProperties: "Product");
+            OrderVM.OrderHeader = _unitOfWork.OrderHeaderRepo.GetFirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id, includeProperties: typeof(ApplicationUser).GetTypeInfo().Name);
+            OrderVM.OrderDetail = _unitOfWork.OrderDetailRepo.GetAll(u => u.OrderId == OrderVM.OrderHeader.Id, includeProperties: "Product");
 
             //stripe settings 
             var domain = "https://localhost:44300/";
@@ -87,7 +87,7 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
 
             var service = new SessionService();
             Session session = service.Create(options);
-            _unitOfWork.OrderHeader.UpdateStripePaymentID(OrderVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
+            _unitOfWork.OrderHeaderRepo.UpdateStripePaymentID(OrderVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
             _unitOfWork.Save();
             Response.Headers.Add("Location", session.Url);
             return new StatusCodeResult(303);
@@ -100,7 +100,7 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
         /// <returns></returns>
         public IActionResult PaymentConfirmation(int orderHeaderid)
         {
-            OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == orderHeaderid);
+            OrderHeader orderHeader = _unitOfWork.OrderHeaderRepo.GetFirstOrDefault(u => u.Id == orderHeaderid);
             if (orderHeader.PaymentStatus == StatusData.PaymentStatusDelayedPayment)
             {
                 var service = new SessionService();
@@ -108,7 +108,7 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
                 //check the stripe status
                 if (session.PaymentStatus.ToLower() == "paid")
                 {
-                    _unitOfWork.OrderHeader.UpdateStatus(orderHeaderid, orderHeader.OrderStatus, StatusData.PaymentStatusApproved);
+                    _unitOfWork.OrderHeaderRepo.UpdateStatus(orderHeaderid, orderHeader.OrderStatus, StatusData.PaymentStatusApproved);
                     _unitOfWork.Save();
                 }
             }
@@ -124,7 +124,7 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult UpdateOrderDetail()
         {
-            var orderHEaderFromDb = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id,tracked:false);
+            var orderHEaderFromDb = _unitOfWork.OrderHeaderRepo.GetFirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id, tracked: false);
             orderHEaderFromDb.Name = OrderVM.OrderHeader.Name;
             orderHEaderFromDb.PhoneNumber = OrderVM.OrderHeader.PhoneNumber;
             orderHEaderFromDb.StreetAddress = OrderVM.OrderHeader.StreetAddress;
@@ -137,7 +137,7 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
             if (OrderVM.OrderHeader.TrackingNumber != null)
                 orderHEaderFromDb.TrackingNumber = OrderVM.OrderHeader.TrackingNumber;
 
-            _unitOfWork.OrderHeader.Update(orderHEaderFromDb);
+            _unitOfWork.OrderHeaderRepo.Update(orderHEaderFromDb);
             _unitOfWork.Save();
             TempData["Success"] = "Order Details Updated Successfully.";
             return RedirectToAction("Details", "Order", new { orderId = orderHEaderFromDb.Id });
@@ -153,7 +153,7 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult StartProcessing()
         {
-            _unitOfWork.OrderHeader.UpdateStatus(OrderVM.OrderHeader.Id, StatusData.StatusInProcess);
+            _unitOfWork.OrderHeaderRepo.UpdateStatus(OrderVM.OrderHeader.Id, StatusData.StatusInProcess);
             _unitOfWork.Save();
             TempData["Success"] = "Order Status Updated Successfully.";
             return RedirectToAction("Details", "Order", new { orderId = OrderVM.OrderHeader.Id });
@@ -168,7 +168,7 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ShipOrder()
         {
-            var orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id, tracked: false);
+            var orderHeader = _unitOfWork.OrderHeaderRepo.GetFirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id, tracked: false);
             orderHeader.TrackingNumber = OrderVM.OrderHeader.TrackingNumber;
             orderHeader.Carrier = OrderVM.OrderHeader.Carrier;
             orderHeader.OrderStatus = StatusData.StatusShipped;
@@ -177,8 +177,8 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
             if (orderHeader.PaymentStatus == StatusData.PaymentStatusDelayedPayment)
                 orderHeader.PaymentDueDate = DateTime.Now.AddDays(30);
 
-            _unitOfWork.OrderHeader.Update(orderHeader);
-             _unitOfWork.Save();
+            _unitOfWork.OrderHeaderRepo.Update(orderHeader);
+            _unitOfWork.Save();
             TempData["Success"] = "Order Shipped Successfully.";
             return RedirectToAction("Details", "Order", new { orderId = OrderVM.OrderHeader.Id });
         }
@@ -192,7 +192,7 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CancelOrder()
         {
-            var orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id, tracked: false);
+            var orderHeader = _unitOfWork.OrderHeaderRepo.GetFirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id, tracked: false);
 
             // nếu đã thanh toán thì tạo request hoàn tiền và update status thành cancel 
             if (orderHeader.PaymentStatus == StatusData.PaymentStatusApproved)
@@ -206,10 +206,10 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
                 var service = new RefundService();
                 Refund refund = service.Create(options);
 
-                _unitOfWork.OrderHeader.UpdateStatus(orderHeader.Id, StatusData.StatusCancelled, StatusData.StatusRefunded);
+                _unitOfWork.OrderHeaderRepo.UpdateStatus(orderHeader.Id, StatusData.StatusCancelled, StatusData.StatusRefunded);
             }
             else
-                _unitOfWork.OrderHeader.UpdateStatus(orderHeader.Id, StatusData.StatusCancelled, StatusData.StatusCancelled);
+                _unitOfWork.OrderHeaderRepo.UpdateStatus(orderHeader.Id, StatusData.StatusCancelled, StatusData.StatusCancelled);
 
             _unitOfWork.Save();
 
@@ -234,12 +234,12 @@ namespace BookStoreManagementWeb.Areas.Admin.Controllers
 
             // check role to get data
             if (User.IsInRole(StatusData.Role_Admin) || User.IsInRole(StatusData.Role_Employee))
-                orderHeaders = _unitOfWork.OrderHeader.GetAll(includeProperties: "ApplicationUser");
+                orderHeaders = _unitOfWork.OrderHeaderRepo.GetAll(includeProperties: "ApplicationUser");
             else
             {
                 var claimsIdentity = (ClaimsIdentity)User.Identity;
                 var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-                orderHeaders = _unitOfWork.OrderHeader.GetAll(u=>u.ApplicationUserId==claim.Value,includeProperties: "ApplicationUser");
+                orderHeaders = _unitOfWork.OrderHeaderRepo.GetAll(u => u.ApplicationUserId == claim.Value, includeProperties: "ApplicationUser");
             }
 
             // filter data by status

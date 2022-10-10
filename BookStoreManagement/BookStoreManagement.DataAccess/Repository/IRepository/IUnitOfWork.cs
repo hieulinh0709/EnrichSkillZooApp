@@ -8,14 +8,14 @@ namespace BookStoreManagement.DataAccess.Repository.IRepository
 {
     public interface IUnitOfWork
     {
-        ICategoryRepository Category { get; }
-        ICoverTypeRepository CoverType { get; }
-        IProductRepository Product { get; }
-        ICompanyRepository Company { get; }
-        IShoppingCartRepository ShoppingCart { get; }
-        IApplicationUserRepository ApplicationUser { get; }
-        IOrderDetailRepository OrderDetail { get; }
-        IOrderHeaderRepository OrderHeader { get; }
+        ICategoryRepository CategoryRepo { get; }
+        ICoverTypeRepository CoverTypeRepo { get; }
+        IProductRepository ProductRepo { get; }
+        ICompanyRepository CompanyRepo { get; }
+        IShoppingCartRepository ShoppingCartRepo { get; }
+        IApplicationUserRepository ApplicationUserRepo { get; }
+        IOrderDetailRepository OrderDetailRepo { get; }
+        IOrderHeaderRepository OrderHeaderRepo { get; }
 
         void Save();
     }

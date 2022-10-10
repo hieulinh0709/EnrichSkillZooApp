@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Security.Claims;
 
-namespace BookStoreManagementWeb.Controllers;
+namespace BookStoreManagement.Web.Areas.Customer.Controllers;
 [Area("Customer")]
 [AllowAnonymous] // Cho phép User truy cập Action này mà không cần đăng nhập
 public class HomeController : Controller
@@ -23,7 +23,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: $"{typeof(Category).GetTypeInfo().Name},{typeof(CoverType).GetTypeInfo().Name}");
+        IEnumerable<Product> productList = _unitOfWork.ProductRepo.GetAll(includeProperties: $"{typeof(Category).GetTypeInfo().Name},{typeof(CoverType).GetTypeInfo().Name}");
 
         return View(productList);
     }
@@ -32,9 +32,9 @@ public class HomeController : Controller
     {
         ShoppingCart cartObj = new()
         {
-            Count=1,
-            ProductId=productId,
-            Product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == productId, includeProperties: $"{typeof(Category).GetTypeInfo().Name},{typeof(CoverType).GetTypeInfo().Name}"),
+            Count = 1,
+            ProductId = productId,
+            Product = _unitOfWork.ProductRepo.GetFirstOrDefault(u => u.Id == productId, includeProperties: $"{typeof(Category).GetTypeInfo().Name},{typeof(CoverType).GetTypeInfo().Name}"),
         };
 
         return View(cartObj);
@@ -49,19 +49,20 @@ public class HomeController : Controller
         var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
         shoppingCart.ApplicationUserId = claim.Value;
 
-        ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.GetFirstOrDefault(
+        ShoppingCart cartFromDb = _unitOfWork.ShoppingCartRepo.GetFirstOrDefault(
             u => u.ApplicationUserId == claim.Value && u.ProductId == shoppingCart.ProductId);
 
-        if (cartFromDb == null) {
+        if (cartFromDb == null)
+        {
 
-            _unitOfWork.ShoppingCart.Add(shoppingCart);
+            _unitOfWork.ShoppingCartRepo.Add(shoppingCart);
             _unitOfWork.Save();
             HttpContext.Session.SetInt32(StatusData.SessionCart,
-                _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claim.Value).ToList().Count);
+                _unitOfWork.ShoppingCartRepo.GetAll(u => u.ApplicationUserId == claim.Value).ToList().Count);
         }
         else
         {
-            _unitOfWork.ShoppingCart.IncrementCount(cartFromDb, shoppingCart.Count);
+            _unitOfWork.ShoppingCartRepo.IncrementCount(cartFromDb, shoppingCart.Count);
             _unitOfWork.Save();
         }
 

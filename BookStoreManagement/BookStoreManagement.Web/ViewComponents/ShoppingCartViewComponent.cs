@@ -20,13 +20,11 @@ namespace BookStoreManagement.Web.ViewComponents
             if (claim != null)
             {
                 if (HttpContext.Session.GetInt32(StatusData.SessionCart) != null)
-                {
                     return View(HttpContext.Session.GetInt32(StatusData.SessionCart));
-                }
                 else
                 {
                     HttpContext.Session.SetInt32(StatusData.SessionCart,
-                        _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claim.Value).ToList().Count);
+                        _unitOfWork.ShoppingCartRepo.GetAll(u => u.ApplicationUserId == claim.Value).ToList().Count);
                     return View(HttpContext.Session.GetInt32(StatusData.SessionCart));
                 }
             }
