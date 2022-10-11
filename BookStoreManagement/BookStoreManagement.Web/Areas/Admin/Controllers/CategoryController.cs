@@ -25,7 +25,7 @@ public class CategoryController : Controller
     //GET
     public IActionResult Create()
     {
-        return View();
+        return View("Create");
     }
 
     //POST
@@ -43,7 +43,7 @@ public class CategoryController : Controller
             TempData["success"] = "Category created successfully";
             return RedirectToAction("Index");
         }
-        return View(obj);
+        return View("Create", obj);
     }
 
     //GET
@@ -58,7 +58,7 @@ public class CategoryController : Controller
         if (categoryFromDbFirst == null)
             return NotFound();
 
-        return View(categoryFromDbFirst);
+        return View("Edit", categoryFromDbFirst);
     }
 
     //POST
@@ -76,7 +76,7 @@ public class CategoryController : Controller
             TempData["success"] = "Category updated successfully";
             return RedirectToAction("Index");
         }
-        return View(obj);
+        return View("Edit", obj);
     }
 
     public IActionResult Delete(int? id)
