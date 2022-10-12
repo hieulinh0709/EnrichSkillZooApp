@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "RUhK6EOIFJ+JBrLy7Itf8sKoYUJ+taFzam+17mIAp0aFiYTETSLNPvNsk8XtEYUd+io9lDr2TEIo6Va9ZxE3Hg==",
+  "dgSpecHash": "QLhB3/VfdqnmzDJ08c8DEQM7/wLA9g8OJt4n+eidL0coy2LQ9dvhKo2ziGNCurR02ckoIkfTUbXaGlzDxvLq6Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.UnitTest\\BookStoreManagement.UnitTest.csproj",
   "expectedPackageFiles": [
@@ -143,7 +143,7 @@
     "C:\\Users\\Admin\\.nuget\\packages\\runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\sendgrid\\9.28.1\\sendgrid.9.28.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\starkbank-ecdsa\\1.3.3\\starkbank-ecdsa.1.3.3.nupkg.sha512",
-    "C:\\Users\\Admin\\.nuget\\packages\\stripe.net\\40.9.0\\stripe.net.40.9.0.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\stripe.net\\40.12.0\\stripe.net.40.12.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\system.collections\\4.3.0\\system.collections.4.3.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\system.collections.concurrent\\4.3.0\\system.collections.concurrent.4.3.0.nupkg.sha512",

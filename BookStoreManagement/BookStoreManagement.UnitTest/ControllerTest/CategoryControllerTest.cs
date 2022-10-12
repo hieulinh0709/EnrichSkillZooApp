@@ -25,35 +25,15 @@ namespace BookStoreManagement.UnitTest.ControllerTest
         [SetUp]
         public void Setup()
         {
-            // New object for Category
-            _category = new Category { Id = 1, Name = "Cate 1", DisplayOrder = 1 };
+            SetipCategoryData();
 
-            // New object list for Category
-            _categories = new List<Category>
-            {
-                _category,
-                new Category { Id = 2, Name = "Cate 2", DisplayOrder = 2 }
-            };
+            SetupTempData();
 
-            // Setup TempData
-            var httpContext = new DefaultHttpContext();
-            _tempData = new TempDataDictionary(httpContext, Mock.Of<ITempDataProvider>());
-            _tempData["Info"] = "NUnit test";
+            SetupRepository();
 
-            // Setup Repository
-            _categoryRepository = new Mock<ICategoryRepository>();
+            SetupUnitOfWork();
 
-            //Setup for GetAll and GetFirstOrDefault function
-            _categoryRepository.Setup(s => s.GetAll(null, null)).Returns(_categories);
-            _categoryRepository.Setup(s => s.GetFirstOrDefault(It.IsAny<Expression<Func<Category, bool>>>(), null, true)).Returns(_category);
-
-            // Setup UnitOfWork to dependency injection for controller
-            _unitOfWork = new Mock<IUnitOfWork>();
-            _unitOfWork.Setup(u => u.CategoryRepo).Returns(_categoryRepository.Object);
-
-            // New instance for controller
-            _categoryController = new CategoryController(_unitOfWork.Object);
-            _categoryController.TempData = _tempData;
+            SetupController();
         }
 
         /// <summary>
@@ -78,10 +58,8 @@ namespace BookStoreManagement.UnitTest.ControllerTest
         public void CreateCategory_CreateFailed_ReturnViewName()
         {
             _categoryController.ModelState.AddModelError("Name", "Required");
-            // Act
-            var result = _categoryController.Create(_category) as ViewResult;
 
-            // Assert
+            var result = _categoryController.Create(_category) as ViewResult;
             Assert.That(result?.ViewName, Is.EqualTo(Common.ActionName.Create));
         }
 
@@ -152,5 +130,42 @@ namespace BookStoreManagement.UnitTest.ControllerTest
             Assert.That(actual: result?.ViewName, Is.EqualTo(Common.ActionName.Edit));
         }
 
+        public void SetipCategoryData()
+        {
+            _category = new Category { Id = 1, Name = "Cate 1", DisplayOrder = 1 };
+            _categories = new List<Category>
+            {
+                _category,
+                new Category { Id = 2, Name = "Cate 2", DisplayOrder = 2 }
+            };
+        }
+        public void SetupTempData()
+        {
+            // Setup TempData
+            var httpContext = new DefaultHttpContext();
+            _tempData = new TempDataDictionary(httpContext, Mock.Of<ITempDataProvider>());
+            _tempData["Info"] = "NUnit test";
+        }
+        public void SetupRepository()
+        {
+            // Setup Repository
+            _categoryRepository = new Mock<ICategoryRepository>();
+
+            //Setup for GetAll and GetFirstOrDefault function
+            _categoryRepository.Setup(s => s.GetAll(null, null)).Returns(_categories);
+            _categoryRepository.Setup(s => s.GetFirstOrDefault(It.IsAny<Expression<Func<Category, bool>>>(), null, true)).Returns(_category);
+        }
+        public void SetupUnitOfWork()
+        {
+            // Setup UnitOfWork to dependency injection for controller
+            _unitOfWork = new Mock<IUnitOfWork>();
+            _unitOfWork.Setup(u => u.CategoryRepo).Returns(_categoryRepository.Object);
+        }
+        public void SetupController()
+        {
+            // New instance for controller
+            _categoryController = new CategoryController(_unitOfWork.Object);
+            _categoryController.TempData = _tempData;
+        }
     }
 }

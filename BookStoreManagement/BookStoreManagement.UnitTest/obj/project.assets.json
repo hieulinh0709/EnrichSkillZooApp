@@ -2997,7 +2997,7 @@
           "lib/netstandard2.1/StarkbankEcdsa.dll": {}
         }
       },
-      "Stripe.net/40.9.0": {
+      "Stripe.net/40.12.0": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "12.0.3",
@@ -8489,10 +8489,10 @@
         "starkbank-ecdsa.nuspec"
       ]
     },
-    "Stripe.net/40.9.0": {
-      "sha512": "0ouKCPbPi3gmD8wiptpIWq1lsJxxUYqcscwIjkayeMGPebpZsjetoyPpFPwLviVKrLQPKctNDWrLr3BPO0ofoA==",
+    "Stripe.net/40.12.0": {
+      "sha512": "NP9fcgjwkHOWqFQKVM6JlRg0Z4cAz7HOWCjbdvPtAUYkyELE3L1UTrv/M/FhTNEmPzFr/KaEsD3I37QeSvgHmA==",
       "type": "package",
-      "path": "stripe.net/40.9.0",
+      "path": "stripe.net/40.12.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -8508,7 +8508,7 @@
         "lib/netcoreapp3.1/Stripe.net.xml",
         "lib/netstandard2.0/Stripe.net.dll",
         "lib/netstandard2.0/Stripe.net.xml",
-        "stripe.net.40.9.0.nupkg.sha512",
+        "stripe.net.40.12.0.nupkg.sha512",
         "stripe.net.nuspec"
       ]
     },
@@ -11560,6 +11560,7 @@
       "NUnit >= 3.13.3",
       "NUnit.Analyzers >= 3.3.0",
       "NUnit3TestAdapter >= 4.2.1",
+      "Stripe.net >= 40.12.0",
       "coverlet.collector >= 3.1.2"
     ]
   },
@@ -11625,6 +11626,10 @@
           "NUnit3TestAdapter": {
             "target": "Package",
             "version": "[4.2.1, )"
+          },
+          "Stripe.net": {
+            "target": "Package",
+            "version": "[40.12.0, )"
           },
           "coverlet.collector": {
             "target": "Package",

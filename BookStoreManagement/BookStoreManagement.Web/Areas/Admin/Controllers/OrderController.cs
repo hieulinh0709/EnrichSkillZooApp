@@ -16,6 +16,8 @@ namespace BookStoreManagement.Web.Areas.Admin.Controllers
     public class OrderController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        public SessionService _sessionService;
+        public SessionLineItemOptions _sessionLineItem;
         [BindProperty] // Binding dữ liệu đầu vào cho thuộc tính
         public OrderVM OrderVM { get; set; }
         public OrderController(IUnitOfWork unitOfWork)
@@ -67,7 +69,7 @@ namespace BookStoreManagement.Web.Areas.Admin.Controllers
 
             foreach (var item in OrderVM.OrderDetail)
             {
-                var sessionLineItem = new SessionLineItemOptions
+                _sessionLineItem = new SessionLineItemOptions
                 {
                     PriceData = new SessionLineItemPriceDataOptions
                     {
@@ -81,16 +83,18 @@ namespace BookStoreManagement.Web.Areas.Admin.Controllers
                     },
                     Quantity = item.Count,
                 };
-                options.LineItems.Add(sessionLineItem);
+                options.LineItems.Add(_sessionLineItem);
 
             }
 
-            var service = new SessionService();
-            Session session = service.Create(options);
+            _sessionService = new SessionService();
+
+            Session session = _sessionService.Create(options);
             _unitOfWork.OrderHeaderRepo.UpdateStripePaymentID(OrderVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
             _unitOfWork.Save();
             Response.Headers.Add("Location", session.Url);
-            return new StatusCodeResult(303);
+
+            return new StatusCodeResult(Response.StatusCode);
         }
 
         /// <summary>
@@ -103,8 +107,8 @@ namespace BookStoreManagement.Web.Areas.Admin.Controllers
             OrderHeader orderHeader = _unitOfWork.OrderHeaderRepo.GetFirstOrDefault(u => u.Id == orderHeaderid);
             if (orderHeader.PaymentStatus == StatusData.PaymentStatusDelayedPayment)
             {
-                var service = new SessionService();
-                Session session = service.Get(orderHeader.SessionId);
+                _sessionService = new SessionService();
+                Session session = _sessionService.Get(orderHeader.SessionId);
                 //check the stripe status
                 if (session.PaymentStatus.ToLower() == "paid")
                 {
@@ -112,7 +116,7 @@ namespace BookStoreManagement.Web.Areas.Admin.Controllers
                     _unitOfWork.Save();
                 }
             }
-            return View(orderHeaderid);
+            return View("PaymentConfirmation", orderHeaderid);
         }
 
         /// <summary>

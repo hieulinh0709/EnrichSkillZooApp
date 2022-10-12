@@ -1,0 +1,5 @@
+service.BasePath: https://api.stripe.com
+service.BaseUrl: https://api.stripe.com
+((Stripe.StripeClient)service.Client).ApiBase: https://api.stripe.com
+((Stripe.StripeClient)service.Client).ApiKey: sk_test_51JcFLuLzMgCIgSRrqSw0rTwIt0RlyKd5EEY4p1ocZqgGq4C3LtIHtwiqODMmadnDwEcykJeWvzE8ec4hBdLOAMS400isCtFIR7
+((Stripe.StripeClient)service.Client).ConnectBase: https://connect.stripe.com
