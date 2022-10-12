@@ -85,6 +85,67 @@ namespace BookStoreManagement.UnitTest.ControllerTest
         /// <summary>
         /// My description
         /// </summary>
+        public void SetUpControllerContext()
+        {
+            _httpContext = new DefaultHttpContext();
+            _controllerContext = new ControllerContext()
+            {
+                HttpContext = _httpContext,
+            };
+        }
+        /// <summary>
+        /// My description
+        /// </summary>
+        public void SetUpController()
+        {
+            _orderController = new OrderController(_unitOfWork.Object)
+            {
+                ControllerContext = _controllerContext,
+            };
+
+            _orderController.OrderVM = new Models.ViewModels.OrderVM()
+            {
+                OrderHeader = new OrderHeader() { Id = 1, Name = "name 1" },
+                OrderDetail = _orderDetails
+            };
+        }
+
+        /// <summary>
+        /// My description
+        /// </summary>
+        public void SetUpTempData()
+        {
+            _tempData = new TempDataDictionary(_httpContext, Mock.Of<ITempDataProvider>());
+            _tempData["Info"] = "NUnit test";
+        }
+        /// <summary>
+        /// My description
+        /// </summary>
+        public void InitData()
+        {
+            _orderHeader = new OrderHeader { Id = 1, Name = "name 1", PaymentStatus = StatusData.PaymentStatusDelayedPayment, SessionId = "cs_test_a1kxU9NpQgYn8C2ZwNdqniq5b6zKjk5yyFvE87Vn64rOjerrpQxh99qoT2" };
+            _orderDetails = new List<OrderDetail>()
+                {
+                    new OrderDetail()
+                    {
+                        Id = 1,
+                        OrderId = 1,
+                        Count = 10,
+                        ProductId = 1,
+                        Product = new Models.Product
+                        {
+                            Id = 1,
+                            Title = "title 1",
+                            Price = 10,
+                            ListPrice = 10,
+                        },
+                        Price = 20
+                    }
+                }.AsEnumerable();
+        }
+        /// <summary>
+        /// My description
+        /// </summary>
         public void SetUpRepository()
         {
             _headerRepository = new Mock<IOrderHeaderRepository>();
@@ -116,67 +177,6 @@ namespace BookStoreManagement.UnitTest.ControllerTest
             _unitOfWork.Setup(u => u.OrderDetailRepo).Returns(_detailRepository.Object);
         }
 
-        /// <summary>
-        /// My description
-        /// </summary>
-        public void SetUpTempData()
-        {
-            _tempData = new TempDataDictionary(_httpContext, Mock.Of<ITempDataProvider>());
-            _tempData["Info"] = "NUnit test";
-        }
-
-        /// <summary>
-        /// My description
-        /// </summary>
-        public void SetUpControllerContext()
-        {
-            _httpContext = new DefaultHttpContext();
-            _controllerContext = new ControllerContext()
-            {
-                HttpContext = _httpContext,
-            };
-        }
-        /// <summary>
-        /// My description
-        /// </summary>
-        public void InitData()
-        {
-            _orderHeader = new OrderHeader { Id = 1, Name = "name 1", PaymentStatus = StatusData.PaymentStatusDelayedPayment, SessionId = "cs_test_a1kxU9NpQgYn8C2ZwNdqniq5b6zKjk5yyFvE87Vn64rOjerrpQxh99qoT2" };
-            _orderDetails = new List<OrderDetail>()
-                {
-                    new OrderDetail()
-                    {
-                        Id = 1,
-                        OrderId = 1,
-                        Count = 10,
-                        ProductId = 1,
-                        Product = new Models.Product
-                        {
-                            Id = 1,
-                            Title = "title 1",
-                            Price = 10,
-                            ListPrice = 10,
-                        },
-                        Price = 20
-                    }
-                }.AsEnumerable();
-        }
-        /// <summary>
-        /// My description
-        /// </summary>
-        public void SetUpController()
-        {
-            _orderController = new OrderController(_unitOfWork.Object)
-            {
-                ControllerContext = _controllerContext,
-            };
-
-            _orderController.OrderVM = new Models.ViewModels.OrderVM()
-            {
-                OrderHeader = new OrderHeader() { Id = 1, Name = "name 1" },
-                OrderDetail = _orderDetails
-            };
-        }
         public void SetUpStripeService()
         {
             StripeConfiguration.ApiKey = Common.Stripe.SecretKey;
