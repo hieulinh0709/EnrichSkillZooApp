@@ -26,17 +26,18 @@
     }
 
 }
+            
 
 <div class="p-3">
-    <div class="d-flex justify-content-between pt-4">
-        <div class="p-2">
+                    
             <h2 class="text-primary">Order List</h2>
-		</div>
+    <div class="d-flex justify-content-between">
+        
         <div class="p-2">
-            <ul class="list-group list-group-horizontal-sm">
+            <ul name="Status" class="list-group list-group-horizontal-sm">
                 <a style="text-decoration:none;" asp-controller="Order"
                     asp-action="Index" asp-route-status="inprocess">
-                    <li class="list-group-item @inprocess">In Process</li>
+                    <li value="approved" class="list-group-item @inprocess">In Process</li>
                 </a>
                 <a style="text-decoration:none;" asp-controller="Order"
                     asp-action="Index" asp-route-status="pending">
@@ -55,6 +56,25 @@
                     <li class="list-group-item @all">All</li>
                 </a>
             </ul>
+		</div>
+        <div>
+            @using (Html.BeginForm("ExporDataToFile", "Order", FormMethod.Post))
+            {
+                <input hidden name="Status" value=@status>
+                <div class="d-flex justify-content-end-sm">
+                    <div class="p-2">
+                        <select name="Export" class="form-select" aria-label="Default select example">
+                            <option value="Excel">Excel</option>
+                        </select>
+                    </div>
+                                
+                    <div class="p-2">
+                        <button class="btn btn-primary" type="submit" value="ExportData" name="action">
+                            <i class="fas fa-file-download"> Export Data </i>
+                        </button>
+                    </div>
+                </div>
+            }      
 		</div>
 	</div>
     <br /><br />

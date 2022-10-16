@@ -575,3 +575,8 @@ C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\Book
 C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Web\obj\Debug\net6.0\BookStoreManagement.Web.pdb
 C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Web\obj\Debug\net6.0\BookStoreManagement.Web.genruntimeconfig.cache
 C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Web\obj\Debug\net6.0\ref\BookStoreManagement.Web.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Web\bin\Debug\net6.0\ClosedXML.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Web\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Web\bin\Debug\net6.0\ExcelNumberFormat.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Web\bin\Debug\net6.0\itextsharp.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Web\bin\Debug\net6.0\System.IO.Packaging.dll

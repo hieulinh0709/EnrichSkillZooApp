@@ -2,10 +2,13 @@
 using BookStoreManagement.Models;
 using BookStoreManagement.Models.ViewModels;
 using BookStoreManagement.Utility;
+using BookStoreManagement.Web.Areas.Admin.Services;
+using ClosedXML.Excel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
 using Stripe.Checkout;
+using System.Data;
 using System.Reflection;
 using System.Security.Claims;
 
@@ -16,13 +19,15 @@ namespace BookStoreManagement.Web.Areas.Admin.Controllers
     public class OrderController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly OrderService _orderService;
         public SessionService _sessionService;
         public SessionLineItemOptions _sessionLineItem;
         [BindProperty] // Binding dữ liệu đầu vào cho thuộc tính
         public OrderVM OrderVM { get; set; }
-        public OrderController(IUnitOfWork unitOfWork)
+        public OrderController(IUnitOfWork unitOfWork, OrderService orderService = null)
         {
             _unitOfWork = unitOfWork;
+            _orderService = orderService ?? new OrderService();
         }
 
         public IActionResult Index()
@@ -234,9 +239,101 @@ namespace BookStoreManagement.Web.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll(string status)
         {
+            // filter data by roles
+            IEnumerable<OrderHeader>  orderHeaders = FitlerDataByRole();
+
+            // filter data by status
+            orderHeaders = _orderService.FilterByStatus(orderHeaders, status);
+
+            return Json(new { data = orderHeaders });
+        }
+
+        private DataTable GetProductsDetail(string orderStatus)
+        {
+            IEnumerable<OrderHeader> orders = FitlerDataByRole();
+            orders = _orderService.FilterByStatus(orders, orderStatus);
+
+            // Nên tạo constants cho magic string
+            DataTable dtProduct = new DataTable("ProductDetails");
+            dtProduct.Columns.AddRange(new DataColumn[4] { new DataColumn("ProductID"),
+                                            new DataColumn("ProductName"),
+                                            new DataColumn("Price"),
+                                            new DataColumn("ProductDescription") });
+            foreach (var order in orders)
+            {
+                dtProduct.Rows.Add(order.Id, order.Name, order.OrderTotal, order.PaymentStatus);
+            }
+
+            return dtProduct;
+        }
+
+        [HttpPost]
+        public IActionResult ExporDataToFile()
+        {
+            FileContentResult rs;
+            var dictioneryexportType = Request.Form.ToDictionary(x => x.Key, x => x.Value.ToString());
+            var exportType = dictioneryexportType["Export"];
+            var orderStatus = dictioneryexportType["Status"];
+            var products = GetProductsDetail(orderStatus);
+            switch (exportType)
+            {
+                case "Excel":
+                    return ExportToExcel(products);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Có thể viết hàm common để auto detect column
+        /// </summary>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        private FileContentResult ExportToExcel(DataTable items)
+        {
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Products");
+                var currentRow = 1;
+                worksheet.Cell(currentRow, 1).Value = "ProductID";
+                worksheet.Cell(currentRow, 2).Value = "ProductName";
+                worksheet.Cell(currentRow, 3).Value = "Price";
+                worksheet.Cell(currentRow, 4).Value = "ProductDescription";
+
+                for (int i = 0; i < items.Rows.Count; i++)
+                {
+                    {
+                        currentRow++;
+                        worksheet.Cell(currentRow, 1).Value = items.Rows[i]["ProductID"];
+                        worksheet.Cell(currentRow, 2).Value = items.Rows[i]["ProductName"];
+                        worksheet.Cell(currentRow, 3).Value = items.Rows[i]["Price"];
+                        worksheet.Cell(currentRow, 4).Value = items.Rows[i]["ProductDescription"];
+
+                    }
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "users.xlsx");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Nên move ra service
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<OrderHeader> FitlerDataByRole()
+        {
             IEnumerable<OrderHeader> orderHeaders;
 
-            // check role to get data
+            // Check role to get data
             if (User.IsInRole(StatusData.Role_Admin) || User.IsInRole(StatusData.Role_Employee))
                 orderHeaders = _unitOfWork.OrderHeaderRepo.GetAll(includeProperties: "ApplicationUser");
             else
@@ -246,27 +343,7 @@ namespace BookStoreManagement.Web.Areas.Admin.Controllers
                 orderHeaders = _unitOfWork.OrderHeaderRepo.GetAll(u => u.ApplicationUserId == claim.Value, includeProperties: "ApplicationUser");
             }
 
-            // filter data by status
-            switch (status)
-            {
-                case "pending":
-                    orderHeaders = orderHeaders.Where(u => u.PaymentStatus == StatusData.PaymentStatusDelayedPayment);
-                    break;
-                case "inprocess":
-                    orderHeaders = orderHeaders.Where(u => u.OrderStatus == StatusData.StatusInProcess);
-                    break;
-                case "completed":
-                    orderHeaders = orderHeaders.Where(u => u.OrderStatus == StatusData.StatusShipped);
-                    break;
-                case "approved":
-                    orderHeaders = orderHeaders.Where(u => u.OrderStatus == StatusData.StatusApproved);
-                    break;
-                default:
-                    break;
-            }
-
-
-            return Json(new { data = orderHeaders });
+            return orderHeaders;
         }
         #endregion
     }
