@@ -47,16 +47,16 @@ public class CompanyController : Controller
             if (obj.Id == 0)
             {
                 _unitOfWork.CompanyRepo.Add(obj);
-                TempData["success"] = "Company created successfully";
+                TempData[STATUS.Success] = "Company created successfully";
             }
             else
             {
                 _unitOfWork.CompanyRepo.Update(obj);
-                TempData["success"] = "Company updated successfully";
+                TempData[STATUS.Success] = "Company updated successfully";
             }
             _unitOfWork.Save();
 
-            return RedirectToAction("Index");
+            return RedirectToAction(ActionNameConsts.Index);
         }
         return View(obj);
     }

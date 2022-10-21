@@ -1,4 +1,5 @@
-﻿using BookStoreManagement.DataAccess.Repository.IRepository;
+﻿using BookStoreManagement.Core.Constants;
+using BookStoreManagement.DataAccess.Repository.IRepository;
 using BookStoreManagement.Models;
 using BookStoreManagement.Utility;
 using Microsoft.AspNetCore.Authorization;
@@ -8,7 +9,7 @@ using System.Reflection;
 using System.Security.Claims;
 
 namespace BookStoreManagement.Web.Areas.Customer.Controllers;
-[Area("Customer")]
+[Area(ROLES.Customer)]
 [AllowAnonymous] // Cho phép User truy cập Action này mà không cần đăng nhập
 public class HomeController : Controller
 {

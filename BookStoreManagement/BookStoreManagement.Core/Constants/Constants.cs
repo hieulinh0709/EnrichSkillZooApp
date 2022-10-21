@@ -14,7 +14,11 @@ namespace BookStoreManagement.Core.Constants
 
     public struct STATUS
     {
-        public const string Success = "Success";
+        public const string Success = "success";
+        public const string Pending = "pending";
+        public const string Inprocess = "inprocess";
+        public const string Completed = "completed";
+        public const string Approved = "approved";
     }
 
     public struct MODE
@@ -38,6 +42,7 @@ namespace BookStoreManagement.Core.Constants
         public const string Edit = "Edit";
         public const string Details = "Details";
         public const string Delete = "Delete";
+        public const string Summary = "Summary";
     }
 
     public struct ViewNameConsts

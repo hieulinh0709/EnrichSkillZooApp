@@ -1,11 +1,12 @@
-﻿using BookStoreManagement.DataAccess.Repository.IRepository;
+﻿using BookStoreManagement.Core.Constants;
+using BookStoreManagement.DataAccess.Repository.IRepository;
 using BookStoreManagement.Models;
 using BookStoreManagement.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStoreManagement.Web.Areas.Admin.Controllers;
-[Area("Admin")]
+[Area(ROLES.Admin)]
 [Authorize(Roles = StatusData.Role_Admin)]
 public class CoverTypeController : Controller
 {
@@ -37,8 +38,8 @@ public class CoverTypeController : Controller
         {
             _unitOfWork.CoverTypeRepo.Add(obj);
             _unitOfWork.Save();
-            TempData["success"] = "CoverType created successfully";
-            return RedirectToAction("Index");
+            TempData[STATUS.Success] = "CoverType created successfully";
+            return RedirectToAction(ActionNameConsts.Index);
         }
         return View(obj);
     }
@@ -64,8 +65,8 @@ public class CoverTypeController : Controller
         {
             _unitOfWork.CoverTypeRepo.Update(obj);
             _unitOfWork.Save();
-            TempData["success"] = "CoverType updated successfully";
-            return RedirectToAction("Index");
+            TempData[STATUS.Success] = "CoverType updated successfully";
+            return RedirectToAction(ActionNameConsts.Index);
         }
         return View(obj);
     }
@@ -81,7 +82,7 @@ public class CoverTypeController : Controller
     }
 
     //POST
-    [HttpPost, ActionName("Delete")]
+    [HttpPost, ActionName(ActionNameConsts.Delete)]
     [ValidateAntiForgeryToken]
     public IActionResult DeletePOST(int? id)
     {
@@ -90,8 +91,8 @@ public class CoverTypeController : Controller
 
         _unitOfWork.CoverTypeRepo.Remove(obj);
         _unitOfWork.Save();
-        TempData["success"] = "CoverType deleted successfully";
-        return RedirectToAction("Index");
+        TempData[STATUS.Success] = "CoverType deleted successfully";
+        return RedirectToAction(ActionNameConsts.Index);
 
     }
 }

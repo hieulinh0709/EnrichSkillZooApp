@@ -1,4 +1,5 @@
-﻿using BookStoreManagement.DataAccess.Repository.IRepository;
+﻿using BookStoreManagement.Core.Constants;
+using BookStoreManagement.DataAccess.Repository.IRepository;
 using BookStoreManagement.Models.ViewModels;
 using BookStoreManagement.Utility;
 using Microsoft.AspNetCore.Authorization;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BookStoreManagement.Web.Areas.Admin.Controllers;
-[Area("Admin")]
+[Area(ROLES.Admin)]
 [Authorize(Roles = StatusData.Role_Admin)]
 public class ProductController : Controller
 {
@@ -102,7 +103,7 @@ public class ProductController : Controller
             }
             _unitOfWork.Save();
             TempData["success"] = "Product created successfully";
-            return RedirectToAction("Index");
+            return RedirectToAction(ActionNameConsts.Index);
         }
         return View(obj);
     }

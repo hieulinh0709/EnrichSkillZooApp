@@ -580,3 +580,5 @@ C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\Book
 C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Web\bin\Debug\net6.0\ExcelNumberFormat.dll
 C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Web\bin\Debug\net6.0\itextsharp.dll
 C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Web\bin\Debug\net6.0\System.IO.Packaging.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Web\bin\Debug\net6.0\BookStoreManagement.Core.dll
+C:\Users\Admin\Documents\04_ForLearning\.NET\enrich skill\EnrichSkillZooApp\BookStoreManagement\BookStoreManagement.Web\bin\Debug\net6.0\BookStoreManagement.Core.pdb

@@ -1,4 +1,5 @@
-﻿using BookStoreManagement.Models;
+﻿using BookStoreManagement.Core.Constants;
+using BookStoreManagement.Models;
 using BookStoreManagement.Utility;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System.Data;
@@ -12,16 +13,16 @@ namespace BookStoreManagement.Web.Areas.Admin.Services
         {
             switch (status)
             {
-                case "pending":
+                case STATUS.Pending:
                     orderHeaders = orderHeaders.Where(u => u.PaymentStatus == StatusData.PaymentStatusDelayedPayment);
                     break;
-                case "inprocess":
+                case STATUS.Inprocess:
                     orderHeaders = orderHeaders.Where(u => u.OrderStatus == StatusData.StatusInProcess);
                     break;
-                case "completed":
+                case STATUS.Completed:
                     orderHeaders = orderHeaders.Where(u => u.OrderStatus == StatusData.StatusShipped);
                     break;
-                case "approved":
+                case STATUS.Approved:
                     orderHeaders = orderHeaders.Where(u => u.OrderStatus == StatusData.StatusApproved);
                     break;
                 default:

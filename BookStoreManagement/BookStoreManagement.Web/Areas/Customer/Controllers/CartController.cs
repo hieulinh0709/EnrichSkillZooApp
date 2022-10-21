@@ -1,4 +1,5 @@
-﻿using BookStoreManagement.DataAccess.Repository.IRepository;
+﻿using BookStoreManagement.Core.Constants;
+using BookStoreManagement.DataAccess.Repository.IRepository;
 using BookStoreManagement.Models;
 using BookStoreManagement.Models.ViewModels;
 using BookStoreManagement.Utility;
@@ -10,7 +11,7 @@ using System.Security.Claims;
 
 namespace BookStoreManagement.Web.Areas.Customer.Controllers
 {
-    [Area("Customer")]
+    [Area(ROLES.Customer)]
     [Authorize]
     public class CartController : Controller
     {
@@ -31,7 +32,7 @@ namespace BookStoreManagement.Web.Areas.Customer.Controllers
             ShoppingCartVM = new ShoppingCartVM()
             {
                 ListCart = _unitOfWork.ShoppingCartRepo.GetAll(u => u.ApplicationUserId == claim.Value,
-                includeProperties: "Product"),
+                includeProperties: Entity.Product),
                 OrderHeader = new()
             };
             foreach (var cart in ShoppingCartVM.ListCart)
@@ -51,7 +52,7 @@ namespace BookStoreManagement.Web.Areas.Customer.Controllers
             ShoppingCartVM = new ShoppingCartVM()
             {
                 ListCart = _unitOfWork.ShoppingCartRepo.GetAll(u => u.ApplicationUserId == claim.Value,
-                includeProperties: "Product"),
+                includeProperties: Entity.Product),
                 OrderHeader = new()
             };
             ShoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUserRepo.GetFirstOrDefault(
@@ -74,7 +75,7 @@ namespace BookStoreManagement.Web.Areas.Customer.Controllers
         }
 
         [HttpPost]
-        [ActionName("Summary")]
+        [ActionName(ActionNameConsts.Summary)]
         [ValidateAntiForgeryToken]
         public IActionResult SummaryPOST()
         {
@@ -82,7 +83,7 @@ namespace BookStoreManagement.Web.Areas.Customer.Controllers
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             ShoppingCartVM.ListCart = _unitOfWork.ShoppingCartRepo.GetAll(u => u.ApplicationUserId == claim.Value,
-                includeProperties: "Product");
+                includeProperties: Entity.Product);
 
 
             ShoppingCartVM.OrderHeader.OrderDate = DateTime.Now;
@@ -177,13 +178,13 @@ namespace BookStoreManagement.Web.Areas.Customer.Controllers
 
         public IActionResult OrderConfirmation(int id)
         {
-            OrderHeader orderHeader = _unitOfWork.OrderHeaderRepo.GetFirstOrDefault(u => u.Id == id, includeProperties: "ApplicationUser");
+            OrderHeader orderHeader = _unitOfWork.OrderHeaderRepo.GetFirstOrDefault(u => u.Id == id, includeProperties: Entity.ApplicationUser);
             if (orderHeader.PaymentStatus != StatusData.PaymentStatusDelayedPayment)
             {
                 var service = new SessionService();
                 Session session = service.Get(orderHeader.SessionId);
                 //check the stripe status
-                if (session.PaymentStatus.ToLower() == "paid")
+                if (session.PaymentStatus.ToLower() == PaymentStatus.Paid)
                 {
                     _unitOfWork.OrderHeaderRepo.UpdateStatus(id, StatusData.StatusApproved, StatusData.PaymentStatusApproved);
                     _unitOfWork.Save();
