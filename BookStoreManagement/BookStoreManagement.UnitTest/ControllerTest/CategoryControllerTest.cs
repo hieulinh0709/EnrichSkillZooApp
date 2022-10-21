@@ -1,4 +1,5 @@
-﻿using BookStoreManagement.DataAccess.Repository.IRepository;
+﻿using BookStoreManagement.Core.Constants;
+using BookStoreManagement.DataAccess.Repository.IRepository;
 using BookStoreManagement.Models;
 using BookStoreManagement.UnitTest.Constants;
 using BookStoreManagement.Web.Areas.Admin.Controllers;
@@ -46,7 +47,7 @@ namespace BookStoreManagement.UnitTest.ControllerTest
             var result = (RedirectToActionResult) _categoryController.Create(_category);
 
             // Assert
-            Assert.That(result?.ActionName, Is.EqualTo(Common.ActionName.Index));
+            Assert.That(result?.ActionName, Is.EqualTo(ViewNameConsts.Index));
 
             _unitOfWork.Verify(s => s.CategoryRepo.Add(_category));
         }
@@ -60,7 +61,7 @@ namespace BookStoreManagement.UnitTest.ControllerTest
             _categoryController.ModelState.AddModelError("Name", "Required");
 
             var result = _categoryController.Create(_category) as ViewResult;
-            Assert.That(result?.ViewName, Is.EqualTo(Common.ActionName.Create));
+            Assert.That(result?.ViewName, Is.EqualTo(ViewNameConsts.Create));
         }
 
         /// <summary>
@@ -72,7 +73,7 @@ namespace BookStoreManagement.UnitTest.ControllerTest
         {
             var result = _categoryController.Edit(id) as ViewResult;
 
-            Assert.That(result?.ViewName, Is.EqualTo(Common.ActionName.Edit));
+            Assert.That(result?.ViewName, Is.EqualTo(ViewNameConsts.Edit));
 
             _unitOfWork.Verify(s => s.CategoryRepo.GetFirstOrDefault(s => s.Id == id, null, true));
         }
@@ -112,7 +113,7 @@ namespace BookStoreManagement.UnitTest.ControllerTest
         {
             var result = (RedirectToActionResult) _categoryController.Edit(category);
 
-            Assert.That(actual: result?.ActionName, Is.EqualTo(Common.ActionName.Index));
+            Assert.That(actual: result?.ActionName, Is.EqualTo(ViewNameConsts.Index));
 
             _unitOfWork.Verify(s => s.CategoryRepo.Update(category));
         }
@@ -127,7 +128,7 @@ namespace BookStoreManagement.UnitTest.ControllerTest
             _categoryController.ModelState.AddModelError("Name", "Required");
             var result = _categoryController.Edit(category) as ViewResult;
 
-            Assert.That(actual: result?.ViewName, Is.EqualTo(Common.ActionName.Edit));
+            Assert.That(actual: result?.ViewName, Is.EqualTo(ViewNameConsts.Edit));
         }
 
         public void SetipCategoryData()

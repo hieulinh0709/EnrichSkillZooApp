@@ -19,6 +19,7 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Controller;
 using BookStoreManagement.UnitTest.Constants;
 using System.Net.Http;
 using BookStoreManagement.Utility;
+using BookStoreManagement.Core.Constants;
 
 namespace BookStoreManagement.UnitTest.ControllerTest
 {
@@ -78,7 +79,7 @@ namespace BookStoreManagement.UnitTest.ControllerTest
         {
             var rs = _orderController.PaymentConfirmation(_orderHeader.Id) as ViewResult;
 
-            Assert.That(rs?.ViewName, Is.EqualTo(Common.ViewName.PaymentConfirmation));
+            Assert.That(rs?.ViewName, Is.EqualTo(ViewNameConsts.PaymentConfirmation));
         }
 
         #region Start setup data
@@ -179,7 +180,7 @@ namespace BookStoreManagement.UnitTest.ControllerTest
 
         public void SetUpStripeService()
         {
-            StripeConfiguration.ApiKey = Common.Stripe.SecretKey;
+            StripeConfiguration.ApiKey = StripeConsts.SecretKey;
             _orderController._sessionService = new SessionService();
             _orderController._sessionLineItem = new SessionLineItemOptions();
         }

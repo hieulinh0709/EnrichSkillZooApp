@@ -1,11 +1,12 @@
-﻿using BookStoreManagement.DataAccess.Repository.IRepository;
+﻿using BookStoreManagement.Core.Constants;
+using BookStoreManagement.DataAccess.Repository.IRepository;
 using BookStoreManagement.Models;
 using BookStoreManagement.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStoreManagement.Web.Areas.Admin.Controllers;
-[Area("Admin")]
+[Area(ROLES.Admin)]
 [Authorize(Roles = StatusData.Role_Admin)] // Mọi action đều kiểm tra user đăng nhập là Admin mới thực hiện
 public class CompanyController : Controller
 {

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "QP3BiZaek8Ap4+PI9CoPik8VzvIZnBRZ5HEdEsKbYgB4Nz6h8YWkwnSLisXoj0PF4u13V3TUe+VOichoUjTSrw==",
+  "dgSpecHash": "d2uInRFB7KaxD1IiB7ektBjF2O2RTIY8L+0nxvmbTSYcP/bPiJYbzD60sFnVIGmTPq34cZ0gyPKXfVaWdzGCEA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.UnitTest\\BookStoreManagement.UnitTest.csproj",
   "expectedPackageFiles": [

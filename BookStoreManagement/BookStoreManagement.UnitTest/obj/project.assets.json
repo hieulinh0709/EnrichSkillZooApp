@@ -4331,6 +4331,16 @@
           }
         }
       },
+      "BookStoreManagement.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/BookStoreManagement.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BookStoreManagement.Core.dll": {}
+        }
+      },
       "BookStoreManagement.DataAccess/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -4390,6 +4400,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
+          "BookStoreManagement.Core": "1.0.0",
           "BookStoreManagement.DataAccess": "1.0.0",
           "BookStoreManagement.Utility": "1.0.0",
           "ClosedXML": "0.96.0",
@@ -11733,6 +11744,11 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "BookStoreManagement.Core/1.0.0": {
+      "type": "project",
+      "path": "../BookStoreManagement.Core/BookStoreManagement.Core.csproj",
+      "msbuildProject": "../BookStoreManagement.Core/BookStoreManagement.Core.csproj"
+    },
     "BookStoreManagement.DataAccess/1.0.0": {
       "type": "project",
       "path": "../BookStoreManagement.DataAccess/BookStoreManagement.DataAccess.csproj",
@@ -11756,6 +11772,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "BookStoreManagement.Core >= 1.0.0",
       "BookStoreManagement.Web >= 1.0.0",
       "Microsoft.NET.Test.Sdk >= 17.1.0",
       "Moq >= 4.18.2",
@@ -11793,6 +11810,9 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
+            "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.Core\\BookStoreManagement.Core.csproj": {
+              "projectPath": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.Core\\BookStoreManagement.Core.csproj"
+            },
             "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.Web\\BookStoreManagement.Web.csproj": {
               "projectPath": "C:\\Users\\Admin\\Documents\\04_ForLearning\\.NET\\enrich skill\\EnrichSkillZooApp\\BookStoreManagement\\BookStoreManagement.Web\\BookStoreManagement.Web.csproj"
             }

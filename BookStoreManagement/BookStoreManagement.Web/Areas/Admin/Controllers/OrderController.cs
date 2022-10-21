@@ -1,4 +1,5 @@
-﻿using BookStoreManagement.DataAccess.Repository.IRepository;
+﻿using BookStoreManagement.Core.Constants;
+using BookStoreManagement.DataAccess.Repository.IRepository;
 using BookStoreManagement.Models;
 using BookStoreManagement.Models.ViewModels;
 using BookStoreManagement.Utility;
@@ -14,7 +15,7 @@ using System.Security.Claims;
 
 namespace BookStoreManagement.Web.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area(ROLES.Admin)]
     [Authorize]
     public class OrderController : Controller
     {
@@ -39,8 +40,8 @@ namespace BookStoreManagement.Web.Areas.Admin.Controllers
         {
             OrderVM = new OrderVM()
             {
-                OrderHeader = _unitOfWork.OrderHeaderRepo.GetFirstOrDefault(u => u.Id == orderId, includeProperties: "ApplicationUser"),
-                OrderDetail = _unitOfWork.OrderDetailRepo.GetAll(u => u.OrderId == orderId, includeProperties: "Product"),
+                OrderHeader = _unitOfWork.OrderHeaderRepo.GetFirstOrDefault(u => u.Id == orderId, includeProperties: Entity.ApplicationUser),
+                OrderDetail = _unitOfWork.OrderDetailRepo.GetAll(u => u.OrderId == orderId, includeProperties: Entity.Product),
             };
 
             return View(OrderVM);
@@ -50,13 +51,13 @@ namespace BookStoreManagement.Web.Areas.Admin.Controllers
         /// Thực hiện thanh toán đơn hàng
         /// </summary>
         /// <returns></returns>
-        [ActionName("Details")]
+        [ActionName(ActionNameConsts.Details)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Details_PAY_NOW()
         {
             OrderVM.OrderHeader = _unitOfWork.OrderHeaderRepo.GetFirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id, includeProperties: typeof(ApplicationUser).GetTypeInfo().Name);
-            OrderVM.OrderDetail = _unitOfWork.OrderDetailRepo.GetAll(u => u.OrderId == OrderVM.OrderHeader.Id, includeProperties: "Product");
+            OrderVM.OrderDetail = _unitOfWork.OrderDetailRepo.GetAll(u => u.OrderId == OrderVM.OrderHeader.Id, includeProperties: Entity.Product);
 
             //stripe settings 
             var domain = "https://localhost:44300/";
@@ -67,7 +68,7 @@ namespace BookStoreManagement.Web.Areas.Admin.Controllers
                   "card",
                 },
                 LineItems = new List<SessionLineItemOptions>(),
-                Mode = "payment",
+                Mode = MODE.Payment,
                 SuccessUrl = domain + $"admin/order/PaymentConfirmation?orderHeaderid={OrderVM.OrderHeader.Id}",
                 CancelUrl = domain + $"admin/order/details?orderId={OrderVM.OrderHeader.Id}",
             };
@@ -79,7 +80,7 @@ namespace BookStoreManagement.Web.Areas.Admin.Controllers
                     PriceData = new SessionLineItemPriceDataOptions
                     {
                         UnitAmount = (long)(item.Price * 100),//20.00 -> 2000
-                        Currency = "usd",
+                        Currency = Currency.USD,
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
                             Name = item.Product.Title
@@ -115,13 +116,13 @@ namespace BookStoreManagement.Web.Areas.Admin.Controllers
                 _sessionService = new SessionService();
                 Session session = _sessionService.Get(orderHeader.SessionId);
                 //check the stripe status
-                if (session.PaymentStatus.ToLower() == "paid")
+                if (session.PaymentStatus.ToLower() == PaymentStatus.Paid)
                 {
                     _unitOfWork.OrderHeaderRepo.UpdateStatus(orderHeaderid, orderHeader.OrderStatus, StatusData.PaymentStatusApproved);
                     _unitOfWork.Save();
                 }
             }
-            return View("PaymentConfirmation", orderHeaderid);
+            return View(ViewNameConsts.PaymentConfirmation, orderHeaderid);
         }
 
         /// <summary>
@@ -148,8 +149,8 @@ namespace BookStoreManagement.Web.Areas.Admin.Controllers
 
             _unitOfWork.OrderHeaderRepo.Update(orderHEaderFromDb);
             _unitOfWork.Save();
-            TempData["Success"] = "Order Details Updated Successfully.";
-            return RedirectToAction("Details", "Order", new { orderId = orderHEaderFromDb.Id });
+            TempData[STATUS.Success] = MSG.MsgCode1;
+            return RedirectToAction(ActionNameConsts.Details, ControllerConsts.Order, new { orderId = orderHEaderFromDb.Id });
         }
 
         /// <summary>
@@ -164,8 +165,8 @@ namespace BookStoreManagement.Web.Areas.Admin.Controllers
         {
             _unitOfWork.OrderHeaderRepo.UpdateStatus(OrderVM.OrderHeader.Id, StatusData.StatusInProcess);
             _unitOfWork.Save();
-            TempData["Success"] = "Order Status Updated Successfully.";
-            return RedirectToAction("Details", "Order", new { orderId = OrderVM.OrderHeader.Id });
+            TempData[STATUS.Success] = MSG.MsgCode2;
+            return RedirectToAction(ActionNameConsts.Details, ControllerConsts.Order, new { orderId = OrderVM.OrderHeader.Id });
         }
 
         /// <summary>
@@ -188,8 +189,8 @@ namespace BookStoreManagement.Web.Areas.Admin.Controllers
 
             _unitOfWork.OrderHeaderRepo.Update(orderHeader);
             _unitOfWork.Save();
-            TempData["Success"] = "Order Shipped Successfully.";
-            return RedirectToAction("Details", "Order", new { orderId = OrderVM.OrderHeader.Id });
+            TempData[STATUS.Success] = MSG.MsgCode3;
+            return RedirectToAction(ActionNameConsts.Details, ControllerConsts.Order, new { orderId = OrderVM.OrderHeader.Id });
         }
 
         /// <summary>
@@ -226,8 +227,8 @@ namespace BookStoreManagement.Web.Areas.Admin.Controllers
             * Tương tự ViewData và ViewBag, TempData cũng dùng để truyền dữ liệu ra view
             * điểm khác là TempData có thể lưu lại và hiển thị ở một trang sau đó và nó chỉ biến mất khi người dùng đã "đọc" nó
             */
-            TempData["Success"] = "Order Cancelled Successfully.";
-            return RedirectToAction("Details", "Order", new { orderId = OrderVM.OrderHeader.Id });
+            TempData[STATUS.Success] = MSG.MsgCode4;
+            return RedirectToAction(ActionNameConsts.Details, ControllerConsts.Order, new { orderId = OrderVM.OrderHeader.Id });
         }
 
         /// <summary>
@@ -335,12 +336,12 @@ namespace BookStoreManagement.Web.Areas.Admin.Controllers
 
             // Check role to get data
             if (User.IsInRole(StatusData.Role_Admin) || User.IsInRole(StatusData.Role_Employee))
-                orderHeaders = _unitOfWork.OrderHeaderRepo.GetAll(includeProperties: "ApplicationUser");
+                orderHeaders = _unitOfWork.OrderHeaderRepo.GetAll(includeProperties: Entity.ApplicationUser);
             else
             {
                 var claimsIdentity = (ClaimsIdentity)User.Identity;
                 var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-                orderHeaders = _unitOfWork.OrderHeaderRepo.GetAll(u => u.ApplicationUserId == claim.Value, includeProperties: "ApplicationUser");
+                orderHeaders = _unitOfWork.OrderHeaderRepo.GetAll(u => u.ApplicationUserId == claim.Value, includeProperties: Entity.ApplicationUser);
             }
 
             return orderHeaders;

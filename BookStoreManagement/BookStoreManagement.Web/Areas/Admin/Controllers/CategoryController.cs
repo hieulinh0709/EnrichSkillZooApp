@@ -1,11 +1,12 @@
-﻿using BookStoreManagement.DataAccess.Repository.IRepository;
+﻿using BookStoreManagement.Core.Constants;
+using BookStoreManagement.DataAccess.Repository.IRepository;
 using BookStoreManagement.Models;
 using BookStoreManagement.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStoreManagement.Web.Areas.Admin.Controllers;
-[Area("Admin")]
+[Area(ROLES.Admin)]
 [Authorize(Roles = StatusData.Role_Admin)] // Mọi action đều kiểm tra user đăng nhập là Admin mới thực hiện
 public class CategoryController : Controller
 {
@@ -25,7 +26,7 @@ public class CategoryController : Controller
     //GET
     public IActionResult Create()
     {
-        return View("Create");
+        return View(ViewNameConsts.Create);
     }
 
     //POST
@@ -40,10 +41,10 @@ public class CategoryController : Controller
         {
             _unitOfWork.CategoryRepo.Add(obj);
             _unitOfWork.Save();
-            TempData["success"] = "Category created successfully";
-            return RedirectToAction("Index");
+            TempData[STATUS.Success] = MSG.MsgCode7;
+            return RedirectToAction(ActionNameConsts.Index);
         }
-        return View("Create", obj);
+        return View(ViewNameConsts.Create, obj);
     }
 
     //GET
@@ -58,7 +59,7 @@ public class CategoryController : Controller
         if (categoryFromDbFirst == null)
             return NotFound();
 
-        return View("Edit", categoryFromDbFirst);
+        return View(ViewNameConsts.Edit, categoryFromDbFirst);
     }
 
     //POST
@@ -73,10 +74,10 @@ public class CategoryController : Controller
         {
             _unitOfWork.CategoryRepo.Update(obj);
             _unitOfWork.Save();
-            TempData["success"] = "Category updated successfully";
-            return RedirectToAction("Index");
+            TempData[STATUS.Success] = MSG.MsgCode6;
+            return RedirectToAction(ActionNameConsts.Index);
         }
-        return View("Edit", obj);
+        return View(ViewNameConsts.Edit, obj);
     }
 
     public IActionResult Delete(int? id)
@@ -93,7 +94,7 @@ public class CategoryController : Controller
     }
 
     //POST
-    [HttpPost, ActionName("Delete")]
+    [HttpPost, ActionName(ActionNameConsts.Delete)]
     [ValidateAntiForgeryToken]
     public IActionResult DeletePOST(int? id)
     {
@@ -103,8 +104,8 @@ public class CategoryController : Controller
 
         _unitOfWork.CategoryRepo.Remove(obj);
         _unitOfWork.Save();
-        TempData["success"] = "Category deleted successfully";
-        return RedirectToAction("Index");
+        TempData[STATUS.Success] = MSG.MsgCode5;
+        return RedirectToAction(ActionNameConsts.Index);
 
     }
 }
