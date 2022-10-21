@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BookStoreManagement.Core\BookStoreManagement.Core.csproj" />
     <ProjectReference Include="..\BookStoreManagement.Web\BookStoreManagement.Web.csproj" />
   </ItemGroup>
 
